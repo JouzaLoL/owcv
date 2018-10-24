@@ -20,6 +20,10 @@ namespace OWCV
             InitializeComponent();
             var tick = new System.Timers.Timer(100);
 
+            CvInvoke.NamedWindow("Contours", Emgu.CV.CvEnum.NamedWindowType.Normal);
+            CvInvoke.NamedWindow("Canny", Emgu.CV.CvEnum.NamedWindowType.Normal);
+            CvInvoke.NamedWindow("Filtered", Emgu.CV.CvEnum.NamedWindowType.Normal);
+
             tick.Elapsed += (sender, eArgs) =>
             {
                 var bmp = CaptureScreen.GetDesktopImage();
@@ -27,10 +31,13 @@ namespace OWCV
                 imageBox1.Image = img;
 
                 var filtered = CV.FilterRed(img);
-                imageBox2.Image = filtered;
+                CvInvoke.Imshow("Filtered", filtered);
 
                 var canny = CV.Canny(filtered);
-                imageBox3.Image = canny;
+                CvInvoke.Imshow("Canny", canny);
+
+                var contours = CV.Contours(canny, img);
+                CvInvoke.Imshow("Contours", contours);
             };
 
             tick.Start();
