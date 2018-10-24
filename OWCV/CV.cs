@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Emgu.CV;
+﻿using Emgu.CV;
 using Emgu.CV.Structure;
 
 namespace OWCV
@@ -22,28 +20,21 @@ namespace OWCV
         }
 
         public static Image<Rgb, byte> Contours(Image<Gray, byte> input, Image<Bgr, byte> drawTarget)
-        { 
+        {
             var imgout = drawTarget.Convert<Rgb, byte>();
 
-            try
-            {
-                var contours = new Emgu.CV.Util.VectorOfVectorOfPoint();
-                var hierarchy = new Mat();
-                CvInvoke.FindContours(input, contours, hierarchy, Emgu.CV.CvEnum.RetrType.List, Emgu.CV.CvEnum.ChainApproxMethod.ChainApproxSimple);
-                CvInvoke.DrawContours(imgout, contours, -1, new MCvScalar(255, 0, 0));
+            var contours = new Emgu.CV.Util.VectorOfVectorOfPoint();
+            var hierarchy = new Mat();
 
-                for (int i = 0; i < contours.Size; i++)
-                {
-                    var bbox = CvInvoke.BoundingRectangle(contours[i]);
-                    imgout.Draw(bbox, new Rgb(255, 0, 0));
-                }
-            }
-            catch (Exception)
+            CvInvoke.FindContours(input, contours, hierarchy, Emgu.CV.CvEnum.RetrType.List, Emgu.CV.CvEnum.ChainApproxMethod.ChainApproxSimple);
+            CvInvoke.DrawContours(imgout, contours, -1, new MCvScalar(255, 0, 0));
+
+            for (var i = 0; i < contours.Size; i++)
             {
-                
-                throw;
+                var bbox = CvInvoke.BoundingRectangle(contours[i]);
+                imgout.Draw(bbox, new Rgb(0, 255, 0));
             }
-            return imgout.Convert<Rgb, byte>();
+            return imgout;
         }
     }
 }

@@ -2,187 +2,110 @@
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Linq;
 using System.Runtime.InteropServices;
 
-namespace OWCV { 
-
-    /// <summary>
-    ///     This class shall keep the GDI32 APIs used in our program.
-    /// </summary>
-public class PlatformInvokeGdi32
+namespace OWCV
 {
-    #region Class Variables
-
-    public const int Srccopy = 13369376;
-
-    #endregion
-
-    #region Class Functions<br>
-
-    [DllImport("gdi32.dll", EntryPoint = "DeleteDC")]
-    public static extern IntPtr DeleteDC(IntPtr hDc);
-
-    [DllImport("gdi32.dll", EntryPoint = "DeleteObject")]
-    public static extern IntPtr DeleteObject(IntPtr hDc);
-
-    [DllImport("gdi32.dll", EntryPoint = "BitBlt")]
-    public static extern bool BitBlt(IntPtr hdcDest, int xDest,
-        int yDest, int wDest, int hDest, IntPtr hdcSource,
-        int xSrc, int ySrc, int rasterOp);
-
-    [DllImport("gdi32.dll", EntryPoint = "CreateCompatibleBitmap")]
-    public static extern IntPtr CreateCompatibleBitmap(IntPtr hdc,
-        int nWidth, int nHeight);
-
-    [DllImport("gdi32.dll", EntryPoint = "CreateCompatibleDC")]
-    public static extern IntPtr CreateCompatibleDC(IntPtr hdc);
-
-    [DllImport("gdi32.dll", EntryPoint = "SelectObject")]
-    public static extern IntPtr SelectObject(IntPtr hdc, IntPtr bmp);
-
-    #endregion
-}
-
-/// <summary>
-///     This class shall keep the User32 APIs used in our program.
-/// </summary>
-public class PlatformInvokeUser32
-{
-    #region Class Variables
-
-    public const int SmCxscreen = 0;
-    public const int SmCyscreen = 1;
-
-    #endregion
-
-    #region Class Functions
-
-    [DllImport("user32.dll", EntryPoint = "GetDesktopWindow")]
-    public static extern IntPtr GetDesktopWindow();
-
-    [DllImport("user32.dll", EntryPoint = "GetDC")]
-    public static extern IntPtr GetDC(IntPtr ptr);
-
-    [DllImport("user32.dll", EntryPoint = "GetSystemMetrics")]
-    public static extern int GetSystemMetrics(int abc);
-
-    [DllImport("user32.dll", EntryPoint = "GetWindowDC")]
-    public static extern IntPtr GetWindowDC(int ptr);
-
-    [DllImport("user32.dll", EntryPoint = "ReleaseDC")]
-    public static extern IntPtr ReleaseDC(IntPtr hWnd, IntPtr hDc);
-
-    #endregion
-}
-
-
-/// This class shall keep all the functionality for capturing
-/// the desktop.
-public class CaptureScreen
-{
-    public static Bitmap CaptureApplication(string procName)
+    public static class ScreenCapture
     {
-        var proc = Process.GetProcessesByName(procName)[0];
-        var rect = new User32.Rect();
-        User32.GetWindowRect(proc.MainWindowHandle, ref rect);
-
-        int width = rect.right - rect.left;
-        int height = rect.bottom - rect.top;
-
-        var bmp = new Bitmap(width, height, PixelFormat.Format32bppArgb);
-        Graphics graphics = Graphics.FromImage(bmp);
-        graphics.CopyFromScreen(rect.left, rect.top, 0, 0, new System.Drawing.Size(width, height), CopyPixelOperation.SourceCopy);
-
-        return bmp;
-    }
-
-    private class User32
-    {
-        [StructLayout(LayoutKind.Sequential)]
-        public struct Rect
+        /// <summary>
+        /// Creates an Image object containing a screen shot of the entire desktop
+        /// </summary>
+        /// <returns></returns>
+        public static Image CaptureScreen()
         {
-            public int left;
-            public int top;
-            public int right;
-            public int bottom;
+            return CaptureWindow(User32.GetDesktopWindow());
         }
 
-        [DllImport("user32.dll")]
-        public static extern IntPtr GetWindowRect(IntPtr hWnd, ref Rect rect);
-    }
-    #region Public Class Functions
-
-    protected static IntPtr MHBitmap;
-
-    public static Bitmap GetDesktopImage()
-    {
-        //In size variable we shall keep the size of the screen.
-        Size size;
-
-        //Variable to keep the handle to bitmap.
-        IntPtr hBitmap;
-
-        //Here we get the handle to the desktop device context.
-        var hDc = PlatformInvokeUser32.GetDC
-            (PlatformInvokeUser32.GetDesktopWindow());
-
-        //Here we make a compatible device context in memory for screen
-        //device context.
-        var hMemDc = PlatformInvokeGdi32.CreateCompatibleDC(hDc);
-
-        //We pass SM_CXSCREEN constant to GetSystemMetrics to get the
-        //X coordinates of the screen.
-        size.Cx = PlatformInvokeUser32.GetSystemMetrics
-            (PlatformInvokeUser32.SmCxscreen);
-
-        //We pass SM_CYSCREEN constant to GetSystemMetrics to get the
-        //Y coordinates of the screen.
-        size.Cy = PlatformInvokeUser32.GetSystemMetrics
-            (PlatformInvokeUser32.SmCyscreen);
-
-        //We create a compatible bitmap of the screen size and using
-        //the screen device context.
-        hBitmap = PlatformInvokeGdi32.CreateCompatibleBitmap
-            (hDc, size.Cx, size.Cy);
-
-        //As hBitmap is IntPtr, we cannot check it against null.
-        //For this purpose, IntPtr.Zero is used.
-        if (hBitmap != IntPtr.Zero)
+        /// <summary>
+        /// Creates an Image object containing a screen shot of a specific window
+        /// </summary>
+        /// <param name="handle">The handle to the window. (In windows forms, this is obtained by the Handle property)</param>
+        /// <returns></returns>
+        public static Bitmap CaptureWindow(IntPtr handle)
         {
-            //Here we select the compatible bitmap in the memeory device
-            //context and keep the refrence to the old bitmap.
-            var hOld = PlatformInvokeGdi32.SelectObject
-                (hMemDc, hBitmap);
-            //We copy the Bitmap to the memory device context.
-            PlatformInvokeGdi32.BitBlt(hMemDc, 0, 0, size.Cx, size.Cy, hDc,
-                0, 0, PlatformInvokeGdi32.Srccopy);
-            //We select the old bitmap back to the memory device context.
-            PlatformInvokeGdi32.SelectObject(hMemDc, hOld);
-            //We delete the memory device context.
-            PlatformInvokeGdi32.DeleteDC(hMemDc);
-            //We release the screen device context.
-            PlatformInvokeUser32.ReleaseDC(PlatformInvokeUser32.GetDesktopWindow(), hDc);
-            //Image is created by Image bitmap handle and stored in
-            //local variable.
-            var bmp = Image.FromHbitmap(hBitmap);
-            //Release the memory to avoid memory leaks.
-            PlatformInvokeGdi32.DeleteObject(hBitmap);
-            //This statement runs the garbage collector manually.
-            GC.Collect();
-            //Return the bitmap 
-            return bmp;
+            // get te hDC of the target window
+            IntPtr hdcSrc = User32.GetWindowDC(handle);
+            // get the size
+            User32.RECT windowRect = new User32.RECT();
+            User32.GetWindowRect(handle, ref windowRect);
+            int width = windowRect.right - windowRect.left;
+            int height = windowRect.bottom - windowRect.top;
+            // create a device context we can copy to
+            IntPtr hdcDest = GDI32.CreateCompatibleDC(hdcSrc);
+            // create a bitmap we can copy it to,
+            // using GetDeviceCaps to get the width/height
+            IntPtr hBitmap = GDI32.CreateCompatibleBitmap(hdcSrc, width, height);
+            // select the bitmap object
+            IntPtr hOld = GDI32.SelectObject(hdcDest, hBitmap);
+            // bitblt over
+            GDI32.BitBlt(hdcDest, 0, 0, width, height, hdcSrc, 0, 0, GDI32.SRCCOPY);
+            // restore selection
+            GDI32.SelectObject(hdcDest, hOld);
+            // clean up 
+            GDI32.DeleteDC(hdcDest);
+            User32.ReleaseDC(handle, hdcSrc);
+            // get a .NET image object for it
+            // free up the Bitmap object
+            return Image.FromHbitmap(hBitmap);
         }
-        //If hBitmap is null, retun null.
-        return null;
+
+        /// <summary>
+        /// Helper class containing Gdi32 API functions
+        /// </summary>
+        internal class GDI32
+        {
+
+            public const int SRCCOPY = 0x00CC0020; // BitBlt dwRop parameter
+
+            [DllImport("gdi32.dll")]
+            public static extern bool BitBlt(IntPtr hObject, int nXDest, int nYDest,
+                int nWidth, int nHeight, IntPtr hObjectSource,
+                int nXSrc, int nYSrc, int dwRop);
+
+            [DllImport("gdi32.dll")]
+            public static extern IntPtr CreateCompatibleBitmap(IntPtr hDC, int nWidth,
+                int nHeight);
+
+            [DllImport("gdi32.dll")]
+            public static extern IntPtr CreateCompatibleDC(IntPtr hDC);
+
+            [DllImport("gdi32.dll")]
+            public static extern bool DeleteDC(IntPtr hDC);
+
+            [DllImport("gdi32.dll")]
+            public static extern bool DeleteObject(IntPtr hObject);
+
+            [DllImport("gdi32.dll")]
+            public static extern IntPtr SelectObject(IntPtr hDC, IntPtr hObject);
+        }
+
+        /// <summary>
+        /// Helper class containing User32 API functions
+        /// </summary>
+        class User32
+        {
+            [StructLayout(LayoutKind.Sequential)]
+            public struct RECT
+            {
+                public int left;
+                public int top;
+                public int right;
+                public int bottom;
+            }
+
+            [DllImport("user32.dll")]
+            public static extern IntPtr GetDesktopWindow();
+
+            [DllImport("user32.dll")]
+            public static extern IntPtr GetWindowDC(IntPtr hWnd);
+
+            [DllImport("user32.dll")]
+            public static extern IntPtr ReleaseDC(IntPtr hWnd, IntPtr hDC);
+
+            [DllImport("user32.dll")]
+            public static extern IntPtr GetWindowRect(IntPtr hWnd, ref RECT rect);
+        }
     }
-
-    #endregion
-}
-
-//This structure shall be used to keep the size of the screen.
-public struct Size
-{
-    public int Cx;
-    public int Cy;
-}
 }

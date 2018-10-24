@@ -16,6 +16,7 @@ namespace OWCV
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            Utility.AllocConsole();
             Application.Run(new Form1());
         }
     }

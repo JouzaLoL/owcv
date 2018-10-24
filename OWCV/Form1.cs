@@ -18,17 +18,16 @@ namespace OWCV
         public Form1()
         {
             InitializeComponent();
-            var tick = new System.Timers.Timer(100);
 
             CvInvoke.NamedWindow("Contours", Emgu.CV.CvEnum.NamedWindowType.Normal);
             CvInvoke.NamedWindow("Canny", Emgu.CV.CvEnum.NamedWindowType.Normal);
             CvInvoke.NamedWindow("Filtered", Emgu.CV.CvEnum.NamedWindowType.Normal);
 
+            var tick = new System.Timers.Timer(100);
             tick.Elapsed += (sender, eArgs) =>
             {
-                var bmp = CaptureScreen.CaptureApplication("Overwatch.exe");
+                var bmp = ScreenCapture.CaptureWindow(Utility.GetGameWindow());
                 var img = new Image<Bgr, byte>(bmp);
-                imageBox1.Image = img;
 
                 var filtered = CV.FilterRed(img);
                 CvInvoke.Imshow("Filtered", filtered);
