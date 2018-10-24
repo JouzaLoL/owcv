@@ -19,6 +19,8 @@ namespace OWCV
         {
             InitializeComponent();
 
+
+            CvInvoke.NamedWindow("Original", Emgu.CV.CvEnum.NamedWindowType.Normal);
             CvInvoke.NamedWindow("Contours", Emgu.CV.CvEnum.NamedWindowType.Normal);
             CvInvoke.NamedWindow("Canny", Emgu.CV.CvEnum.NamedWindowType.Normal);
             CvInvoke.NamedWindow("Filtered", Emgu.CV.CvEnum.NamedWindowType.Normal);
@@ -27,12 +29,22 @@ namespace OWCV
             tick.Elapsed += (sender, eArgs) =>
             {
                 var bmp = ScreenCapture.CaptureWindow(Utility.GetGameWindow());
-                var img = new Image<Bgr, byte>(bmp);
+                var source = new Image<Bgr, byte>(bmp);
+
+                // FOV
+                var FOV = 150; // px
+                
+
+                //source.ROI = new Rectangle(960 - FOV, 540 - FOV, FOV*2, FOV*2);
+                var img = source.Copy(new Rectangle(960 - FOV, 540 - FOV, FOV * 2, FOV * 2));
 
                 var filtered = CV.FilterRed(img);
                 CvInvoke.Imshow("Filtered", filtered);
 
-                var canny = CV.Canny(filtered);
+                var thresholded = CV.Threshold(filtered);
+                CvInvoke.Imshow("Original", thresholded);
+
+                var canny = CV.Canny(thresholded);
                 CvInvoke.Imshow("Canny", canny);
 
                 var contours = CV.Contours(canny, img);
@@ -44,7 +56,6 @@ namespace OWCV
 
         private void imageBox1_Click(object sender, EventArgs e)
         {
-
         }
     }
 }

@@ -10,15 +10,6 @@ namespace OWCV
     public static class ScreenCapture
     {
         /// <summary>
-        /// Creates an Image object containing a screen shot of the entire desktop
-        /// </summary>
-        /// <returns></returns>
-        public static Image CaptureScreen()
-        {
-            return CaptureWindow(User32.GetDesktopWindow());
-        }
-
-        /// <summary>
         /// Creates an Image object containing a screen shot of a specific window
         /// </summary>
         /// <param name="handle">The handle to the window. (In windows forms, this is obtained by the Handle property)</param>
@@ -46,8 +37,6 @@ namespace OWCV
             // clean up 
             GDI32.DeleteDC(hdcDest);
             User32.ReleaseDC(handle, hdcSrc);
-            // get a .NET image object for it
-            // free up the Bitmap object
             return Image.FromHbitmap(hBitmap);
         }
 
@@ -57,12 +46,12 @@ namespace OWCV
         internal class GDI32
         {
 
-            public const int SRCCOPY = 0x00CC0020; // BitBlt dwRop parameter
+            public const uint SRCCOPY = 13369376; // BitBlt dwRop parameter
 
             [DllImport("gdi32.dll")]
             public static extern bool BitBlt(IntPtr hObject, int nXDest, int nYDest,
                 int nWidth, int nHeight, IntPtr hObjectSource,
-                int nXSrc, int nYSrc, int dwRop);
+                int nXSrc, int nYSrc, uint dwRop);
 
             [DllImport("gdi32.dll")]
             public static extern IntPtr CreateCompatibleBitmap(IntPtr hDC, int nWidth,
