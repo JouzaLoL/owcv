@@ -26,7 +26,7 @@ namespace OWCV
 
             tick.Elapsed += (sender, eArgs) =>
             {
-                var bmp = CaptureScreen.GetDesktopImage();
+                var bmp = CaptureScreen.CaptureApplication("Overwatch.exe");
                 var img = new Image<Bgr, byte>(bmp);
                 imageBox1.Image = img;
 
