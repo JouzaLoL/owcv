@@ -17,9 +17,6 @@ namespace OWCV
             return FindWindowByCaption(IntPtr.Zero, "Overwatch");
         }
 
-        [DllImport("kernel32.dll", SetLastError = true)]
-        public static extern int AllocConsole();
-
         [DllImport("user32.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
         public static extern void mouse_event(uint dwFlags, uint dx, uint dy, uint cButtons, uint dwExtraInfo);
         //Mouse actions

@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Emgu.CV;
 using Emgu.CV.Structure;
+using OpenCvSharp;
 
 namespace OWCV
 {
@@ -18,14 +19,10 @@ namespace OWCV
         public Form1()
         {
             InitializeComponent();
-
-
-            CvInvoke.NamedWindow("Original", Emgu.CV.CvEnum.NamedWindowType.Normal);
             CvInvoke.NamedWindow("Contours", Emgu.CV.CvEnum.NamedWindowType.Normal);
-            CvInvoke.NamedWindow("Canny", Emgu.CV.CvEnum.NamedWindowType.Normal);
-            CvInvoke.NamedWindow("Filtered", Emgu.CV.CvEnum.NamedWindowType.Normal);
 
-            var tick = new System.Timers.Timer(100);
+
+            var tick = new System.Timers.Timer(10);
             tick.Elapsed += (sender, eArgs) =>
             {
                 var bmp = ScreenCapture.CaptureWindow(Utility.GetGameWindow());
@@ -37,25 +34,15 @@ namespace OWCV
 
                 //source.ROI = new Rectangle(960 - FOV, 540 - FOV, FOV*2, FOV*2);
                 var img = source.Copy(new Rectangle(960 - FOV, 540 - FOV, FOV * 2, FOV * 2));
-
                 var filtered = CV.FilterRed(img);
-                CvInvoke.Imshow("Filtered", filtered);
-
                 var thresholded = CV.Threshold(filtered);
-                CvInvoke.Imshow("Original", thresholded);
-
                 var canny = CV.Canny(thresholded);
-                CvInvoke.Imshow("Canny", canny);
 
-                var contours = CV.Contours(canny, img);
+                var contours = CV.Contours(canny, source);
                 CvInvoke.Imshow("Contours", contours);
             };
 
             tick.Start();
-        }
-
-        private void imageBox1_Click(object sender, EventArgs e)
-        {
         }
     }
 }

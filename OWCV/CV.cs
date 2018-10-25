@@ -1,11 +1,12 @@
 ﻿using System;
-using System.Drawing;
-using System.Linq;
-using System.Windows.Forms;
+using System.Diagnostics;
 using Emgu.CV;
 using Emgu.CV.CvEnum;
 using Emgu.CV.Structure;
 using Emgu.CV.Util;
+using System.Drawing;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace OWCV
 {
@@ -34,20 +35,8 @@ namespace OWCV
         {
             var contours = new VectorOfVectorOfPoint();
             var hierarchy = new Mat();
-                
-            CvInvoke.FindContours(input, contours, hierarchy, RetrType.External, ChainApproxMethod.ChainApproxSimple);
-            //CvInvoke.DrawContours(drawTarget, contours, -1, new MCvScalar(255, 0, 0));
 
-            //for (var i = 0; i < contours.Size; i++)
-            //{
-            //    var line = new Mat();
-            //    //CvInvoke.FitLine(contours[i], line, DistType.C, 0, 0.01, 0.01);
-
-            //    //drawTarget.Draw(line.ToImage<Bgr, byte>(), new Bgr(0, 255, 0));
-            //    var hull = new Mat();
-            //    CvInvoke.ConvexHull(contours[i], hull);
-            //    CvInvoke.Polylines(drawTarget, hull, false, new MCvScalar(0, 255, 0));
-            //}
+            CvInvoke.FindContours(input, contours, hierarchy, RetrType.External, ChainApproxMethod.ChainApproxNone);
 
             ShouldFire(contours, drawTarget);
 
@@ -57,18 +46,18 @@ namespace OWCV
         public static bool ShouldFire(VectorOfVectorOfPoint contours, Image<Bgr, byte> drawTarget)
         {
             var centerOfScreen = Cursor.Position;
-            Point pt = Cursor.Position; // Get the mouse cursor in screen coordinates 
+            drawTarget.Draw(new Rectangle(centerOfScreen.X, centerOfScreen.Y, 300, 300), new Bgr(Color.Coral));
 
             for (var i = 0; i < contours.Size; i++)
             {
-                var hull = new Mat();
-                var el = CvInvoke.BoundingRectangle(contours[i]);
-                CvInvoke.ConvexHull(contours[i], hull);
-                CvInvoke.Polylines(drawTarget, hull, false, new MCvScalar(0, 255, 0));
-                drawTarget.Draw(el, new Bgr(Color.Aqua));
-                var dist = CvInvoke.PointPolygonTest(hull, centerOfScreen, true);
-                if (dist > 0)
+                var currObj = contours[i];
+                drawTarget.DrawPolyline(currObj.ToArray(), true, new Bgr(Color.BlueViolet));
+                var dist = CvInvoke.PointPolygonTest(currObj, new PointF(150, 150), true);
+
+                Debug.WriteLine(dist);
+                if (dist > -1)
                 {
+                    Debug.WriteLine(dist);
                     System.Media.SystemSounds.Exclamation.Play();
                     Utility.DoMouseClick();
                     return true;
