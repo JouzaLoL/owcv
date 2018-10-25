@@ -24,7 +24,7 @@ namespace OWCV
                 new Rectangle(new Point(gameWindowRes.Width/2 - FOV.Height / 2, gameWindowRes.Height / 2 - FOV.Height / 2),
                     FOV);
 
-            var tick = new System.Timers.Timer(13);
+            var tick = new System.Timers.Timer(100);
             tick.Elapsed += (sender, eArgs) =>
             {
                 try
@@ -36,7 +36,7 @@ namespace OWCV
                 source.Draw(ROIRect, new Bgr(Color.AliceBlue));
 #endif
                     var roi = source.Copy(ROIRect);
-                    CV.Pipeline(roi);
+                    CV.Pipeline(roi, FOV);
 #if DEBUG
                 CvInvoke.Imshow("Contours", roi);                
 #endif

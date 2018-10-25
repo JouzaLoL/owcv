@@ -10,7 +10,7 @@ namespace OWCV
 {
     public class CV
     {
-        public static void Pipeline(Image<Bgr, byte> original)
+        public static void Pipeline(Image<Bgr, byte> original, Size FOV)
         {
             var processed = original
                 .Convert<Hsv, byte>()
@@ -25,15 +25,10 @@ namespace OWCV
             var hierarchy = new Mat();
 
             CvInvoke.FindContours(processed, contours, hierarchy, RetrType.External, ChainApproxMethod.ChainApproxNone);
+#if DEBUG
             CvInvoke.DrawContours(original, contours, -1, new MCvScalar(100, 0, 0));
+#endif
             processed.Dispose();
-
-            var gameWindow = Utility.GetGameWindow();
-            var gameWindowRes = ScreenCapture.GetWindowRes(gameWindow);
-            var FOV = new Size(200, 200);
-            var ROIRect =
-                new Rectangle(new Point(gameWindowRes.Width / 2 - FOV.Height / 2, gameWindowRes.Height / 2 - FOV.Height / 2),
-                    FOV);
 
             var crosshair = new PointF(FOV.Height / 2 - 0.4f, FOV.Height / 2 + 11);
 #if DEBUG
