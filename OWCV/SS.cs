@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Imaging;
-using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace OWCV
@@ -37,6 +34,8 @@ namespace OWCV
             // clean up 
             GDI32.DeleteDC(hdcDest);
             User32.ReleaseDC(handle, hdcSrc);
+            // get a .NET image object for it
+            // free up the Bitmap object
             return Image.FromHbitmap(hBitmap);
         }
 

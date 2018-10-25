@@ -46,13 +46,13 @@ namespace OWCV
         public static bool ShouldFire(VectorOfVectorOfPoint contours, Image<Bgr, byte> drawTarget)
         {
             var centerOfScreen = Cursor.Position;
-            drawTarget.Draw(new Rectangle(centerOfScreen.X, centerOfScreen.Y, 300, 300), new Bgr(Color.Coral));
+            drawTarget.Draw(new CircleF(new PointF(centerOfScreen.X, centerOfScreen.Y), 10), new Bgr(Color.Coral));
 
             for (var i = 0; i < contours.Size; i++)
             {
                 var currObj = contours[i];
                 drawTarget.DrawPolyline(currObj.ToArray(), true, new Bgr(Color.BlueViolet));
-                var dist = CvInvoke.PointPolygonTest(currObj, new PointF(150, 150), true);
+                var dist = CvInvoke.PointPolygonTest(currObj, new PointF(centerOfScreen.X, centerOfScreen.Y), true);
 
                 Debug.WriteLine(dist);
                 if (dist > -1)

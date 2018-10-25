@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Emgu.CV;
 using Emgu.CV.Structure;
-using OpenCvSharp;
 
 namespace OWCV
 {
@@ -21,19 +20,17 @@ namespace OWCV
             InitializeComponent();
             CvInvoke.NamedWindow("Contours", Emgu.CV.CvEnum.NamedWindowType.FreeRatio);
 
+            var gameWindow = Utility.GetGameWindow();
 
-            var tick = new System.Timers.Timer(10);
+            var tick = new System.Timers.Timer(100);
             tick.Elapsed += (sender, eArgs) =>
             {
-                var bmp = ScreenCapture.CaptureWindow(Utility.GetGameWindow());
+                var bmp = ScreenCapture.CaptureWindow(gameWindow);
                 var source = new Image<Bgr, byte>(bmp);
-
+                imageBox1.Image = source;
                 // FOV
                 var FOV = 150; // px
                 
-
-                //source.ROI = new Rectangle(960 - FOV, 540 - FOV, FOV*2, FOV*2);
-                //var img = source.Copy(new Rectangle(960 - FOV, 540 - FOV, FOV * 2, FOV * 2));
                 var filtered = CV.FilterRed(source);
                 var thresholded = CV.Threshold(filtered);
                 var canny = CV.Canny(thresholded);
