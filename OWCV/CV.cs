@@ -22,9 +22,8 @@ namespace OWCV
 
         public static Image<Gray, byte> Threshold(Image<Gray, byte> original)
         {
-            var input = original.Dilate(1).Erode(1).SmoothGaussian(5);
+            var input = original.Dilate(1).Erode(1).SmoothGaussian(2);
             CvInvoke.Threshold(input, input, 50, 100, ThresholdType.ToZero);
-
             return input;
         }
 
@@ -42,9 +41,8 @@ namespace OWCV
 
         public static bool ShouldFire(VectorOfVectorOfPoint contours, Image<Bgr, byte> drawTarget)
         {
-            var centerOfScreen = Cursor.Position;
 #if DEBUG
-            drawTarget.Draw(new CircleF(new PointF(centerOfScreen.X, centerOfScreen.Y), 5), new Bgr(Color.Coral));
+            drawTarget.Draw(new CircleF(new PointF(100, 100), 1), new Bgr(Color.Coral));
 #endif
 
             for (var i = 0; i < contours.Size; i++)
@@ -53,13 +51,13 @@ namespace OWCV
 #if DEBUG
                 drawTarget.DrawPolyline(currObj.ToArray(), true, new Bgr(Color.BlueViolet));
 #endif
-                var dist = CvInvoke.PointPolygonTest(currObj, new PointF(centerOfScreen.X, centerOfScreen.Y), true);
+                var dist = CvInvoke.PointPolygonTest(currObj, new PointF(100, 100), false);
 
                 if (dist > -1)
                 {
                     System.Media.SystemSounds.Exclamation.Play();
                     Utility.DoMouseClick();
-                    return true;
+                    break;
                 }
             }
 

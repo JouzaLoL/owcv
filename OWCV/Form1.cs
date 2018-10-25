@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Emgu.CV;
+﻿using Emgu.CV;
 using Emgu.CV.Structure;
+using System;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace OWCV
 {
@@ -25,22 +18,42 @@ namespace OWCV
 
             var gameWindow = Utility.GetGameWindow();
 
+            // FOV
+            var FOV = new Size(200, 200);
+            var ROIRect =
+                new Rectangle(new Point(Screen.PrimaryScreen.Bounds.Width/2 - FOV.Height / 2, Screen.PrimaryScreen.Bounds.Height / 2 - FOV.Height / 2),
+                    FOV);
+
             var tick = new System.Timers.Timer(16);
             tick.Elapsed += (sender, eArgs) =>
             {
-                var bmp = ScreenCapture.CaptureWindow(gameWindow);
-                var source = new Image<Bgr, byte>(bmp);
-
-                // FOV
-                var FOV = 150; // px
-                
-                var filtered = CV.FilterRed(source);
-                var thresholded = CV.Threshold(filtered);
-                var canny = CV.Canny(thresholded);
-                var contours = CV.Contours(canny, source);
+                try
+                {
+                    var bmp = ScreenCapture.CaptureWindow(gameWindow);
+                    var source = new Image<Bgr, byte>(bmp);
+                    bmp.Dispose();
 #if DEBUG
-                CvInvoke.Imshow("Contours", contours);                
+                source.Draw(ROIRect, new Bgr(Color.AliceBlue));
 #endif
+                    var roi = source.Copy(ROIRect);
+                    var filtered = CV.FilterRed(roi);
+                    var thresholded = CV.Threshold(filtered);
+                    var canny = CV.Canny(thresholded);
+                    var contours = CV.Contours(canny, roi);
+#if DEBUG
+                CvInvoke.Imshow("Contours", source);                
+#endif
+                    roi.Dispose();
+                    filtered.Dispose();
+                    thresholded.Dispose();
+                    canny.Dispose();
+                    contours.Dispose();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
             };
 
             tick.Start();
