@@ -1,63 +1,59 @@
 ﻿using System;
 using System.Diagnostics;
-using Emgu.CV;
-using Emgu.CV.CvEnum;
-using Emgu.CV.Structure;
-using Emgu.CV.Util;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using OpenCvSharp;
+using OpenCvSharp.Blob;
+using Point = OpenCvSharp.Point;
 
 namespace OWCV
 {
     public class CV
     {
-        public static Image<Gray, byte> FilterRed(Image<Bgr, byte> original)
+        public static Mat FilterRed(Mat original)
         {
-            var hsvImage = original.Convert<Hsv, byte>();
-            return hsvImage.InRange(new Hsv(0, 82, 0), new Hsv(5, 255, 255));
+            var output = new Mat();
+            Cv2.InRange(original, new Scalar(0, 82, 0), new Scalar(5, 255, 255), original);
+            return original;
         }
 
-        public static Image<Gray, byte> Canny(Image<Gray, byte> original)
+        public static Mat Canny(Mat original)
         {
             return original.Canny(255 / 3, 10);
         }
 
-        public static Image<Gray, byte> Threshold(Image<Gray, byte> original)
+        public static Mat Threshold(Mat original)
         {
-            var input = original.Dilate(1).Erode(1).SmoothGaussian(5);
-            CvInvoke.Threshold(input, input, 50, 100, ThresholdType.ToZero);
-
-            return input;
+            //var input = original.Dilate(1).Erode(1).GaussianBlur(new OpenCvSharp.Size(2, 2), 0.01);
+            var output = new Mat();
+            Cv2.Threshold(original, output, 50, 100, ThresholdTypes.Binary);
+            return output;
         }
 
-        public static Image<Bgr, byte> Contours(Image<Gray, byte> input, Image<Bgr, byte> drawTarget)
+        public static Mat Contours(Mat input, Mat drawTarget)
         {
-            var contours = new VectorOfVectorOfPoint();
             var hierarchy = new Mat();
 
-            CvInvoke.FindContours(input, contours, hierarchy, RetrType.External, ChainApproxMethod.ChainApproxNone);
+            Cv2.FindContours(input, out var contours, hierarchy, RetrievalModes.External, ContourApproximationModes.ApproxSimple);
 
-            ShouldFire(contours, drawTarget);
+            //ShouldFire(contours, drawTarget);
 
             return drawTarget;
         }
 
-        public static bool ShouldFire(VectorOfVectorOfPoint contours, Image<Bgr, byte> drawTarget)
+        public static bool ShouldFire(Mat[] contours, Mat drawTarget)
         {
-            var centerOfScreen = Cursor.Position;
-            drawTarget.Draw(new Rectangle(centerOfScreen.X, centerOfScreen.Y, 300, 300), new Bgr(Color.Coral));
+            Cv2.Rectangle(drawTarget, new Rect(Cursor.Position.X, Cursor.Position.Y, 300, 300), new Scalar(150, 100, 10));
+            Cv2.DrawContours(drawTarget, contours, -1, Scalar.BlueViolet);
 
-            for (var i = 0; i < contours.Size; i++)
+            foreach (var currObj in contours)
             {
-                var currObj = contours[i];
-                drawTarget.DrawPolyline(currObj.ToArray(), true, new Bgr(Color.BlueViolet));
-                var dist = CvInvoke.PointPolygonTest(currObj, new PointF(150, 150), true);
+                var dist = Cv2.PointPolygonTest(currObj, new Point2f(150, 150), true);
 
                 Debug.WriteLine(dist);
                 if (dist > -1)
                 {
-                    Debug.WriteLine(dist);
                     System.Media.SystemSounds.Exclamation.Play();
                     Utility.DoMouseClick();
                     return true;
