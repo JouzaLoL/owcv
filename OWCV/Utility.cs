@@ -5,14 +5,20 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace OWCV
 {
     internal class Utility
     {
+        public static IntPtr GetGameWindow()
+        {
+            return Process.GetProcessesByName("Overwatch")[0].MainWindowHandle;
+        }
+
         [DllImport("user32.dll", EntryPoint = "FindWindow", SetLastError = true)]
         private static extern IntPtr FindWindowByCaption(IntPtr zeroOnly, string lpWindowName);
-        public static IntPtr GetGameWindow()
+        public static IntPtr GetGameWindow2()
         {
             return FindWindowByCaption(IntPtr.Zero, "Overwatch");
         }

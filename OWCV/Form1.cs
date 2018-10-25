@@ -19,7 +19,7 @@ namespace OWCV
         public Form1()
         {
             InitializeComponent();
-            CvInvoke.NamedWindow("Contours", Emgu.CV.CvEnum.NamedWindowType.Normal);
+            CvInvoke.NamedWindow("Contours", Emgu.CV.CvEnum.NamedWindowType.FreeRatio);
 
 
             var tick = new System.Timers.Timer(10);
@@ -33,8 +33,8 @@ namespace OWCV
                 
 
                 //source.ROI = new Rectangle(960 - FOV, 540 - FOV, FOV*2, FOV*2);
-                var img = source.Copy(new Rectangle(960 - FOV, 540 - FOV, FOV * 2, FOV * 2));
-                var filtered = CV.FilterRed(img);
+                //var img = source.Copy(new Rectangle(960 - FOV, 540 - FOV, FOV * 2, FOV * 2));
+                var filtered = CV.FilterRed(source);
                 var thresholded = CV.Threshold(filtered);
                 var canny = CV.Canny(thresholded);
 
@@ -43,6 +43,11 @@ namespace OWCV
             };
 
             tick.Start();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
