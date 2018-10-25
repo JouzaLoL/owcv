@@ -39,6 +39,17 @@ namespace OWCV
             return Image.FromHbitmap(hBitmap);
         }
 
+        public static Size GetWindowRes(IntPtr handle)
+        {
+            // get the size
+            User32.RECT windowRect = new User32.RECT();
+            User32.GetWindowRect(handle, ref windowRect);
+            int width = windowRect.right - windowRect.left;
+            int height = windowRect.bottom - windowRect.top;
+
+            return new Size(width, height);
+        }
+
         /// <summary>
         /// Helper class containing Gdi32 API functions
         /// </summary>

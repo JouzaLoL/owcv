@@ -17,14 +17,14 @@ namespace OWCV
 
 
             var gameWindow = Utility.GetGameWindow();
-
+            var gameWindowRes = ScreenCapture.GetWindowRes(gameWindow);
             // FOV
             var FOV = new Size(200, 200);
             var ROIRect =
-                new Rectangle(new Point(Screen.PrimaryScreen.Bounds.Width/2 - FOV.Height / 2, Screen.PrimaryScreen.Bounds.Height / 2 - FOV.Height / 2),
+                new Rectangle(new Point(gameWindowRes.Width/2 - FOV.Height / 2, gameWindowRes.Height / 2 - FOV.Height / 2),
                     FOV);
 
-            var tick = new System.Timers.Timer(16);
+            var tick = new System.Timers.Timer(13);
             tick.Elapsed += (sender, eArgs) =>
             {
                 try
@@ -36,18 +36,11 @@ namespace OWCV
                 source.Draw(ROIRect, new Bgr(Color.AliceBlue));
 #endif
                     var roi = source.Copy(ROIRect);
-                    var filtered = CV.FilterRed(roi);
-                    var thresholded = CV.Threshold(filtered);
-                    var canny = CV.Canny(thresholded);
-                    var contours = CV.Contours(canny, roi);
+                    CV.Pipeline(roi);
 #if DEBUG
-                CvInvoke.Imshow("Contours", source);                
+                CvInvoke.Imshow("Contours", roi);                
 #endif
-                    roi.Dispose();
-                    filtered.Dispose();
-                    thresholded.Dispose();
-                    canny.Dispose();
-                    contours.Dispose();
+                    source.Dispose();
                 }
                 catch (Exception e)
                 {
