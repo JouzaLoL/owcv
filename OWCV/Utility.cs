@@ -14,7 +14,16 @@ namespace OWCV
     {
         public static IntPtr GetGameWindow()
         {
-            return Process.GetProcessesByName("Overwatch")[0].MainWindowHandle;
+            var gameWindow = Process.GetProcessesByName("Overwatch");
+            if (gameWindow.Length == 0)
+            {
+                return IntPtr.Zero;
+            }
+            else
+            {
+                return gameWindow[0].MainWindowHandle;
+            }
+
         }
 
         [DllImport("user32.dll", EntryPoint = "FindWindow", SetLastError = true)]
