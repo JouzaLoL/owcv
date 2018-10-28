@@ -19,11 +19,7 @@ namespace OWCV
             {
                 return IntPtr.Zero;
             }
-            else
-            {
-                return gameWindow[0].MainWindowHandle;
-            }
-
+            return gameWindow[0].MainWindowHandle;
         }
 
         [DllImport("user32.dll", EntryPoint = "FindWindow", SetLastError = true)]
@@ -47,6 +43,20 @@ namespace OWCV
             uint X = (uint)Cursor.Position.X;
             uint Y = (uint)Cursor.Position.Y;
             mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, X, Y, 0, 0);
+        }
+    }
+
+    public static class RichTextBoxExtensions
+    {
+        public static void AppendText(this RichTextBox box, string text, Color color)
+        {
+            box.SelectionStart = box.TextLength;
+            box.SelectionLength = 0;
+
+            box.SelectionColor = color;
+            box.SelectionFont = new Font(Control.DefaultFont, FontStyle.Bold);
+            box.AppendText(text);
+            box.SelectionColor = box.ForeColor;
         }
     }
 }

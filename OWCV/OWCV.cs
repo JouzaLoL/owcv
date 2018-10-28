@@ -12,12 +12,12 @@ namespace OWCV
 {
     public interface ILog
     {
-        void Log(string message);
+        void Log(string message, Color? color = null);
     }
 
     public partial class OWCV : MaterialForm, ILog
     {
-        public FormTimer findOW = new FormTimer();
+        public FormTimer FindOw = new FormTimer();
         public static ILog Form;
         public OWCV()
         {
@@ -37,25 +37,26 @@ namespace OWCV
         private void Form1_Load(object sender, EventArgs e)
         {
             Log("Attempting to find game instance...");
-            findOW.Interval = 1000;
-            findOW.Tick += (s, a) =>
+            FindOw.Interval = 1000;
+            FindOw.Tick += (s, a) =>
             {
                 var gameWindow = Utility.GetGameWindow();
                 if (gameWindow == IntPtr.Zero)
                 {
-                    Log($"Game instance not found. Retrying in {findOW.Interval / 1000} seconds");
-                    findOW.Stop();
-                    findOW.Interval += 1000;
-                    findOW.Start();
+                    Log($"Game instance not found. Retrying in {FindOw.Interval / 1000} seconds", Color.Red);
+                    FindOw.Stop();
+                    FindOw.Interval += 1000;
+                    FindOw.Start();
                 }
                 else
                 {
                     Log("Game instance found! Injecting...");
+                    FindOw.Stop();
                     Inject(gameWindow);
                 }
             };
 
-            findOW.Start();
+            FindOw.Start();
         }
 
         /// <summary>
@@ -119,6 +120,11 @@ namespace OWCV
 
         }
 
+        public void Log(string message, Color? color = null)
+        {
+            richTextBox1.AppendText(message + "\n", color ?? Color.Black);
+        }
+
         public void Log(string message)
         {
             richTextBox1.AppendText(message + "\n");
@@ -128,5 +134,6 @@ namespace OWCV
         {
 
         }
+
     }
 }
