@@ -60,7 +60,7 @@ namespace OWCV
                     Log("Game instance found! Injecting...");
                     FindOw.Stop();
                     GameWindow = gameWindow;
-                    //Inject(gameWindow);
+                    Inject(gameWindow);
                 }
             };
 
