@@ -4,7 +4,11 @@ using MaterialSkin;
 using MaterialSkin.Controls;
 using System;
 using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using FormTimer = System.Windows.Forms.Timer;
 using ThreadTimer = System.Timers.Timer;
 
@@ -19,6 +23,9 @@ namespace OWCV
     {
         public FormTimer FindOw = new FormTimer();
         public static ILog Form;
+        public DesktopDuplicator dd = new DesktopDuplicator(0, 0);
+        public IntPtr GameWindow;
+
         public OWCV()
         {
             InitializeComponent();
@@ -52,7 +59,8 @@ namespace OWCV
                 {
                     Log("Game instance found! Injecting...");
                     FindOw.Stop();
-                    Inject(gameWindow);
+                    GameWindow = gameWindow;
+                    //Inject(gameWindow);
                 }
             };
 
@@ -76,21 +84,19 @@ namespace OWCV
                     FOV);
 
             var tick = new ThreadTimer(50);
-            tick.Elapsed += async (s, a) =>
+            tick.Elapsed += (s, a) =>
             {
-                await ProcessAsync(FOV, ROIRect, gameWindow);
+                //Process(FOV, ROIRect, gameWindow);
             };
 
             tick.Start();
         }
 
-
-
-        private async Task ProcessAsync(Size FOV, Rectangle ROIRect, IntPtr gameWindow)
+        private void Process(Size FOV, Rectangle ROIRect, IntPtr gameWindow)
         {
             try
             {
-                var bmp = ScreenCapture.CaptureWindow(gameWindow);
+                var bmp = dd.GetLatestFrame();
                 var source = new Image<Bgr, byte>(bmp);
                 bmp.Dispose();
 #if DEBUG
@@ -99,7 +105,7 @@ namespace OWCV
                 var roi = source.Copy(ROIRect);
                 CV.Pipeline(roi, FOV);
 #if DEBUG
-                CvInvoke.Imshow("Contours", roi);
+                CvInvoke.Imshow("Contours", source);
 #endif
                 source.Dispose();
             }
@@ -112,7 +118,15 @@ namespace OWCV
 
         private void materialRaisedButton1_Click(object sender, EventArgs e)
         {
-            
+            var gameWindowRes = ScreenCapture.GetWindowRes(GameWindow);
+
+            // FOV
+            var FOV = new Size(200, 200);
+            var ROIRect =
+                new Rectangle(new Point(gameWindowRes.Width / 2 - FOV.Height / 2, gameWindowRes.Height / 2 - FOV.Height / 2),
+                    FOV);
+
+            Process(FOV, ROIRect, GameWindow);
         }
 
         private void labelDebug_Click(object sender, EventArgs e)

@@ -1,17 +1,12 @@
 ﻿using System;
 using System.Drawing;
 using System.Runtime.InteropServices;
+using DesktopDuplication;
 
 namespace OWCV
 {
     public static class ScreenCapture
     {
-        public static Bitmap CaptureWindowSharp()
-        {
-            var dd = new DesktopDuplicator(0, 0);
-            var frame = dd.GetLatestFrame();
-            return frame.DesktopImage;
-        }
 
         /// <summary>
         /// Creates an Image object containing a screen shot of a specific window
