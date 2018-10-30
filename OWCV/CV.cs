@@ -14,7 +14,7 @@ namespace OWCV
         {
             var processed = original
                 .Convert<Hsv, byte>()
-                .InRange(new Hsv(0, 82, 0), new Hsv(5, 255, 255))
+                .InRange(new Hsv(132, 61, 170), new Hsv(163, 255, 255))
                 .Dilate(1)
                 .Erode(1)
                 .SmoothGaussian(5)

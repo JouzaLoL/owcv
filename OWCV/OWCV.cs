@@ -50,7 +50,7 @@ namespace OWCV
                 var gameWindow = Utility.GetGameWindow();
                 if (gameWindow == IntPtr.Zero)
                 {
-                    Log($"Game instance not found. Retrying in {FindOw.Interval / 1000} seconds", Color.Red);
+                    Log($"Game instance not found. Retrying in {FindOw.Interval / 1000} seconds", Color.DarkRed);
                     FindOw.Stop();
                     FindOw.Interval += 1000;
                     FindOw.Start();
@@ -86,7 +86,7 @@ namespace OWCV
             var tick = new ThreadTimer(50);
             tick.Elapsed += (s, a) =>
             {
-                //Process(FOV, ROIRect, gameWindow);
+                Process(FOV, ROIRect, gameWindow);
             };
 
             tick.Start();
@@ -96,7 +96,7 @@ namespace OWCV
         {
             try
             {
-                var bmp = dd.GetLatestFrame();
+                var bmp = ScreenCapture.CaptureWindow(gameWindow);
                 var source = new Image<Bgr, byte>(bmp);
                 bmp.Dispose();
 #if DEBUG
@@ -105,7 +105,7 @@ namespace OWCV
                 var roi = source.Copy(ROIRect);
                 CV.Pipeline(roi, FOV);
 #if DEBUG
-                CvInvoke.Imshow("Contours", source);
+                CvInvoke.Imshow("Contours", roi);
 #endif
                 source.Dispose();
             }
@@ -118,15 +118,7 @@ namespace OWCV
 
         private void materialRaisedButton1_Click(object sender, EventArgs e)
         {
-            var gameWindowRes = ScreenCapture.GetWindowRes(GameWindow);
 
-            // FOV
-            var FOV = new Size(200, 200);
-            var ROIRect =
-                new Rectangle(new Point(gameWindowRes.Width / 2 - FOV.Height / 2, gameWindowRes.Height / 2 - FOV.Height / 2),
-                    FOV);
-
-            Process(FOV, ROIRect, GameWindow);
         }
 
         private void labelDebug_Click(object sender, EventArgs e)
