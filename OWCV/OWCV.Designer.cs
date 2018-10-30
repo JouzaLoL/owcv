@@ -28,24 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnLoad = new MaterialSkin.Controls.MaterialRaisedButton();
             this.labelDebug = new MaterialSkin.Controls.MaterialLabel();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.tickMs = new System.Windows.Forms.TrackBar();
+            this.tickMsLabel = new System.Windows.Forms.Label();
+            this.tickSpeedMsValue = new System.Windows.Forms.Label();
+            this.materialRaisedButton1 = new MaterialSkin.Controls.MaterialRaisedButton();
+            ((System.ComponentModel.ISupportInitialize)(this.tickMs)).BeginInit();
             this.SuspendLayout();
-            // 
-            // btnLoad
-            // 
-            this.btnLoad.Depth = 0;
-            this.btnLoad.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLoad.Location = new System.Drawing.Point(264, 199);
-            this.btnLoad.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btnLoad.Name = "btnLoad";
-            this.btnLoad.Primary = true;
-            this.btnLoad.Size = new System.Drawing.Size(184, 41);
-            this.btnLoad.TabIndex = 0;
-            this.btnLoad.Text = "Load OWCV";
-            this.btnLoad.UseVisualStyleBackColor = true;
-            this.btnLoad.Click += new System.EventHandler(this.materialRaisedButton1_Click);
             // 
             // labelDebug
             // 
@@ -54,7 +44,7 @@
             this.labelDebug.Depth = 0;
             this.labelDebug.Font = new System.Drawing.Font("Roboto", 11F);
             this.labelDebug.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.labelDebug.Location = new System.Drawing.Point(12, 211);
+            this.labelDebug.Location = new System.Drawing.Point(83, 32);
             this.labelDebug.MouseState = MaterialSkin.MouseState.HOVER;
             this.labelDebug.Name = "labelDebug";
             this.labelDebug.Size = new System.Drawing.Size(88, 19);
@@ -67,7 +57,7 @@
             // 
             this.richTextBox1.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.richTextBox1.Location = new System.Drawing.Point(16, 97);
+            this.richTextBox1.Location = new System.Drawing.Point(16, 73);
             this.richTextBox1.Margin = new System.Windows.Forms.Padding(10, 3, 3, 3);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ReadOnly = true;
@@ -76,27 +66,84 @@
             this.richTextBox1.Text = "";
             this.richTextBox1.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged);
             // 
+            // tickMs
+            // 
+            this.tickMs.BackColor = System.Drawing.Color.White;
+            this.tickMs.LargeChange = 10;
+            this.tickMs.Location = new System.Drawing.Point(276, 195);
+            this.tickMs.Maximum = 100;
+            this.tickMs.Minimum = 10;
+            this.tickMs.Name = "tickMs";
+            this.tickMs.Size = new System.Drawing.Size(172, 45);
+            this.tickMs.SmallChange = 5;
+            this.tickMs.TabIndex = 3;
+            this.tickMs.TickFrequency = 10;
+            this.tickMs.Value = 50;
+            this.tickMs.Scroll += new System.EventHandler(this.tickMs_Scroll);
+            // 
+            // tickMsLabel
+            // 
+            this.tickMsLabel.AutoSize = true;
+            this.tickMsLabel.BackColor = System.Drawing.SystemColors.Window;
+            this.tickMsLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tickMsLabel.Location = new System.Drawing.Point(272, 175);
+            this.tickMsLabel.Name = "tickMsLabel";
+            this.tickMsLabel.Size = new System.Drawing.Size(140, 20);
+            this.tickMsLabel.TabIndex = 4;
+            this.tickMsLabel.Text = "Tick Speed in MS: ";
+            // 
+            // tickSpeedMsValue
+            // 
+            this.tickSpeedMsValue.AutoSize = true;
+            this.tickSpeedMsValue.BackColor = System.Drawing.SystemColors.Window;
+            this.tickSpeedMsValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tickSpeedMsValue.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.tickSpeedMsValue.Location = new System.Drawing.Point(419, 175);
+            this.tickSpeedMsValue.Name = "tickSpeedMsValue";
+            this.tickSpeedMsValue.Size = new System.Drawing.Size(29, 20);
+            this.tickSpeedMsValue.TabIndex = 5;
+            this.tickSpeedMsValue.Text = "50";
+            // 
+            // materialRaisedButton1
+            // 
+            this.materialRaisedButton1.Depth = 0;
+            this.materialRaisedButton1.Location = new System.Drawing.Point(16, 175);
+            this.materialRaisedButton1.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialRaisedButton1.Name = "materialRaisedButton1";
+            this.materialRaisedButton1.Primary = true;
+            this.materialRaisedButton1.Size = new System.Drawing.Size(139, 65);
+            this.materialRaisedButton1.TabIndex = 6;
+            this.materialRaisedButton1.Text = "Reload";
+            this.materialRaisedButton1.UseVisualStyleBackColor = true;
+            this.materialRaisedButton1.Click += new System.EventHandler(this.materialRaisedButton1_Click);
+            // 
             // OWCV
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(460, 252);
+            this.Controls.Add(this.materialRaisedButton1);
+            this.Controls.Add(this.tickSpeedMsValue);
+            this.Controls.Add(this.tickMsLabel);
+            this.Controls.Add(this.tickMs);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.labelDebug);
-            this.Controls.Add(this.btnLoad);
             this.Name = "OWCV";
             this.Text = "OWCV";
             this.Load += new System.EventHandler(this.Form1_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.tickMs)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private MaterialSkin.Controls.MaterialRaisedButton btnLoad;
         private MaterialSkin.Controls.MaterialLabel labelDebug;
         private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.TrackBar tickMs;
+        private System.Windows.Forms.Label tickMsLabel;
+        private System.Windows.Forms.Label tickSpeedMsValue;
+        private MaterialSkin.Controls.MaterialRaisedButton materialRaisedButton1;
     }
 }
 
