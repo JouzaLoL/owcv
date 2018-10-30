@@ -44,7 +44,7 @@ namespace OWCV
         private void Form1_Load(object sender, EventArgs e)
         {
             Log("Attempting to find game instance...");
-            FindOw.Interval = 1000;
+            FindOw.Interval = 1;
             FindOw.Tick += (s, a) =>
             {
                 var gameWindow = Utility.GetGameWindow();

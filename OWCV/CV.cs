@@ -1,4 +1,5 @@
-﻿using Emgu.CV;
+﻿using System;
+using Emgu.CV;
 using Emgu.CV.CvEnum;
 using Emgu.CV.Structure;
 using Emgu.CV.Util;
@@ -31,6 +32,8 @@ namespace OWCV
             processed.Dispose();
 
             var crosshair = new PointF(FOV.Height / 2 - 0.4f, FOV.Height / 2 + 11);
+
+            
 #if DEBUG
             original.Draw(new Rectangle((int)crosshair.X, (int)crosshair.Y, 1, 1), new Bgr(Color.Coral));
 #endif
@@ -38,7 +41,12 @@ namespace OWCV
             {
                 var currObj = contours[i];
                 var hull = CvInvoke.ConvexHull(currObj.ToArray().Select((p) => new PointF(p.X, p.Y)).ToArray());
-                
+#if DEBUG
+                CvInvoke.Polylines(
+                    original,
+                    Array.ConvertAll(hull, Point.Round),
+                    true, new MCvScalar(255.0, 200, 0.0));
+#endif
                 var dist = CvInvoke.PointPolygonTest(new VectorOfPointF(hull), crosshair, false);
 
                 if (dist > -1)
