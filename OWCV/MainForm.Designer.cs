@@ -1,6 +1,6 @@
 ﻿namespace OWCV
 {
-    partial class OWCV
+    partial class MainForm
     {
         /// <summary>
         /// Required designer variable.

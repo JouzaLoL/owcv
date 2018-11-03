@@ -4,6 +4,7 @@ using MaterialSkin;
 using MaterialSkin.Controls;
 using System;
 using System.Drawing;
+using Emgu.CV.CvEnum;
 using FormTimer = System.Windows.Forms.Timer;
 using ThreadTimer = System.Timers.Timer;
 
@@ -14,16 +15,16 @@ namespace OWCV
         void Log(string message, Color? color = null);
     }
 
-    public partial class OWCV : MaterialForm, ILog
+    public partial class MainForm : MaterialForm, ILog
     {
         public static ILog Form;
 
         public FormTimer FindOw = new FormTimer();
-        public ThreadTimer tickTimer = new ThreadTimer();
+        public ThreadTimer TickTimer = new ThreadTimer();
         public IntPtr GameWindow;
-        public int tickMsValue = 50;
+        public int TickMsValue = 50;
 
-        public OWCV()
+        public MainForm()
         {
             InitializeComponent();
 
@@ -71,35 +72,36 @@ namespace OWCV
         public void Inject(IntPtr gameWindow)
         {
 #if DEBUG
-            CvInvoke.NamedWindow("Contours", Emgu.CV.CvEnum.NamedWindowType.FreeRatio);
+            CvInvoke.NamedWindow("Contours", NamedWindowType.FreeRatio);
 #endif
             var gameWindowRes = ScreenCapture.GetWindowRes(gameWindow);
 
             // FOV
-            var FOV = new Size(200, 200);
-            var ROIRect =
+            var fov = new Size(200, 200);
+            var roiRect =
                 new Rectangle(
-                    new Point(gameWindowRes.Width / 2 - FOV.Height / 2, gameWindowRes.Height / 2 - FOV.Height / 2),
-                    FOV);
+                    new Point(gameWindowRes.Width / 2 - fov.Height / 2, gameWindowRes.Height / 2 - fov.Height / 2),
+                    fov);
 
-            tickTimer = new ThreadTimer(tickMsValue);
-            tickTimer.Elapsed += (s, a) => { Process(FOV, ROIRect, gameWindow); };
+            TickTimer = new ThreadTimer(TickMsValue);
+            TickTimer.Elapsed += (s, a) => { ProcessFrame(fov, roiRect, gameWindow); };
 
-            tickTimer.Start();
+            TickTimer.Start();
         }
 
-        private void Process(Size FOV, Rectangle ROIRect, IntPtr gameWindow)
+        private void ProcessFrame(Size fov, Rectangle roiRect, IntPtr gameWindow)
         {
             try
             {
-                var bmp = ScreenCapture.CaptureWindow(gameWindow);
+                var bmp = ScreenCaptureDesktop.CaptureWindow(gameWindow);
                 var source = new Image<Bgr, byte>(bmp);
                 bmp.Dispose();
 #if DEBUG
-                source.Draw(ROIRect, new Bgr(Color.AliceBlue));
+                source.Draw(source.Data.Length.ToString(), new Point(40, 40), FontFace.HersheyDuplex, 1, new Bgr(Color.Red));
+                source.Draw(roiRect, new Bgr(Color.AliceBlue));
 #endif
-                var roi = source.Copy(ROIRect);
-                CV.Pipeline(roi, FOV);
+                var roi = source.Copy(roiRect);
+                CVMain.Pipeline(roi, fov);
 #if DEBUG
                 CvInvoke.Imshow("Contours", roi);
 #endif
@@ -112,16 +114,16 @@ namespace OWCV
             }
         }
 
-        public void Log(string message, Color? color = null)
-        {
-            richTextBox1.AppendText(message + "\n", color ?? Color.Black);
-        }
-
         public void Log(string message)
         {
             richTextBox1.AppendText(message + "\n");
         }
 
+        // ReSharper disable once MethodOverloadWithOptionalParameter
+        public void Log(string message, Color? color = null)
+        {
+            richTextBox1.AppendText(message + "\n", color ?? Color.Black);
+        }
 
         private void richTextBox1_TextChanged(object sender, EventArgs e)
         {
@@ -134,8 +136,8 @@ namespace OWCV
 
         private void materialRaisedButton1_Click(object sender, EventArgs e)
         {
-            tickTimer.Stop();
-            tickTimer.Interval = tickMs.Value;
+            TickTimer.Stop();
+            TickTimer.Interval = tickMs.Value;
             Log("Settings changed, reloading...", Color.DarkBlue);
             FindOw.Stop();
             Form1_Load(this, null);

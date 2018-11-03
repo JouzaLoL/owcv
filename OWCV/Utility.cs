@@ -12,9 +12,19 @@ namespace OWCV
 {
     internal class Utility
     {
+        [DllImport("user32.dll")]
+        private static extern IntPtr GetForegroundWindow();
+
         public static IntPtr GetGameWindow()
         {
             var gameWindow = Process.GetProcessesByName("Overwatch");
+#if DEBUG
+            Debug.WriteLine(GetForegroundWindow() + " : " + gameWindow[0].MainWindowHandle);
+#endif
+            if (GetForegroundWindow() != gameWindow[0].MainWindowHandle)
+            {
+                return IntPtr.Zero;
+            }
             if (gameWindow.Length == 0)
             {
                 return IntPtr.Zero;

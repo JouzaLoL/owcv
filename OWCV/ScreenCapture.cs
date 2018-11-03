@@ -1,10 +1,42 @@
 ﻿using System;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
-using DesktopDuplication;
+using System.Windows.Forms;
 
 namespace OWCV
 {
+
+    public static class ScreenCaptureDesktop
+    {
+        public static Bitmap CaptureDesktop()
+        {
+            Bitmap bp = new Bitmap(Screen.PrimaryScreen.Bounds.Size.Width, Screen.PrimaryScreen.Bounds.Size.Height);
+            Graphics g = Graphics.FromImage(bp);
+            g.CopyFromScreen(0, 0, 0, 0, Screen.PrimaryScreen.Bounds.Size, CopyPixelOperation.SourceCopy);
+            return bp;
+        }
+
+        public static Bitmap CaptureWindow(IntPtr windowHandle)
+        {
+            using (Bitmap bp = new Bitmap(Screen.PrimaryScreen.Bounds.Size.Width, Screen.PrimaryScreen.Bounds.Size.Height))
+            {
+                using (Graphics g = Graphics.FromImage(bp))
+                {
+                    g.CopyFromScreen(0, 0, 0, 0, Screen.PrimaryScreen.Bounds.Size, CopyPixelOperation.SourceCopy);
+
+                    ScreenCapture.User32.RECT windowRect = new ScreenCapture.User32.RECT();
+                    ScreenCapture.User32.GetWindowRect(windowHandle, ref windowRect);
+
+                    int width = windowRect.right - windowRect.left - 20;
+                    int height = windowRect.bottom - windowRect.top - 20;
+                    var rect = new Rectangle(new Point(windowRect.left + 7, windowRect.top), new Size(width, height));
+                    return bp.Clone(rect, PixelFormat.Format32bppRgb);
+                }
+            }
+        }
+    }
+
     public static class ScreenCapture
     {
 
@@ -16,6 +48,7 @@ namespace OWCV
         public static Bitmap CaptureWindow(IntPtr handle)
         {
             // get te hDC of the target window
+            var desktop = User32.GetDesktopWindow();
             IntPtr hdcSrc = User32.GetWindowDC(handle);
             // get the size
             User32.RECT windowRect = new User32.RECT();
@@ -55,7 +88,7 @@ namespace OWCV
         /// <summary>
         /// Helper class containing Gdi32 API functions
         /// </summary>
-        internal class GDI32
+        public class GDI32
         {
 
             public const uint SRCCOPY = 13369376; // BitBlt dwRop parameter
@@ -85,7 +118,7 @@ namespace OWCV
         /// <summary>
         /// Helper class containing User32 API functions
         /// </summary>
-        class User32
+        public class User32
         {
             [StructLayout(LayoutKind.Sequential)]
             public struct RECT

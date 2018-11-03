@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace OWCV
 {
-    public class CV
+    public class CVMain
     {
         public static void Pipeline(Image<Bgr, byte> original, Size FOV)
         {
@@ -31,7 +31,7 @@ namespace OWCV
 #endif
             processed.Dispose();
 
-            var crosshair = new PointF(FOV.Height / 2 - 0.4f, FOV.Height / 2 + 11);
+            var crosshair = new PointF(FOV.Height / 2 - 10f, FOV.Height / 2 + 11);
 
             
 #if DEBUG
