@@ -35,6 +35,11 @@ namespace OWCV
             var hierarchy = new Mat();
 
             CvInvoke.FindContours(processed, contours, hierarchy, RetrType.External, ChainApproxMethod.ChainApproxNone);
+
+            if (contours.Size == 0)
+            {
+                return;
+            }
 #if DEBUG
             CvInvoke.DrawContours(original, contours, -1, new MCvScalar(100, 0, 0));
 #endif
@@ -46,24 +51,60 @@ namespace OWCV
 #if DEBUG
             original.Draw(new Rectangle((int)crosshair.X, (int)crosshair.Y, 1, 1), new Bgr(Color.Coral));
 #endif
-            for (var i = 0; i < contours.Size; i++)
-            {
-                var currObj = contours[i];
-                var hull = CvInvoke.ConvexHull(currObj.ToArray().Select((p) => new PointF(p.X, p.Y)).ToArray());
-#if DEBUG
-                CvInvoke.Polylines(
-                    original,
-                    Array.ConvertAll(hull, Point.Round),
-                    true, new MCvScalar(255.0, 200, 0.0));
-#endif
-                var dist = CvInvoke.PointPolygonTest(new VectorOfPointF(hull), crosshair, false);
+            // Filter for the biggest polygon
+            var contourArrayofArrayOfArray = contours.ToArrayOfArray();
 
-                if (dist > -1)
+            var polygonSizes = contourArrayofArrayOfArray
+                .Select((polygon, index) => new
                 {
-                    Utility.DoMouseClick();
-                    return;
-                }
+                    area = CvInvoke.ContourArea(new VectorOfPoint(polygon)),
+                    index
+                })
+                .ToList();
+                
+            polygonSizes.Sort((a, b) => b.area.CompareTo(a.area));
+
+            Point[] biggestPolygon = new Point[10];
+            if (contourArrayofArrayOfArray.Length > polygonSizes.FirstOrDefault().index)
+            {
+                biggestPolygon = contourArrayofArrayOfArray[polygonSizes.FirstOrDefault().index];
             }
+
+#if DEBUG
+            CvInvoke.Polylines(
+                original,
+                biggestPolygon,
+                true, new MCvScalar(255.0, 200, 0.0));
+#endif
+
+            var dist = CvInvoke.PointPolygonTest(new VectorOfPoint(biggestPolygon), crosshair, false);
+
+            if (dist > -1)
+            {
+                Utility.DoMouseClick();
+                return;
+            }
+
+//            for (var i = 0; i < contours.Size; i++)
+//            {
+//                var currObj = contours[i];
+//                var polygon = currObj.ToArray();
+
+//                var hull = CvInvoke.ConvexHull(currObj.ToArray().Select((p) => new PointF(p.X, p.Y)).ToArray());
+//#if DEBUG
+//                CvInvoke.Polylines(
+//                    original,
+//                    polygon,
+//                    true, new MCvScalar(255.0, 200, 0.0));
+//#endif
+//                var dist = CvInvoke.PointPolygonTest(currObj, crosshair, false);
+
+//                if (dist > -1)
+//                {
+//                    Utility.DoMouseClick();
+//                    return;
+//                }
+//            }
         }
 
         public static Image<Gray, byte> FilterRed(Image<Bgr, byte> original)
