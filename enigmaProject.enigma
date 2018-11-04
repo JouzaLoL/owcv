@@ -16,14 +16,14 @@
     <EnableLogging>False</EnableLogging>
   </KeysGenerator>
   <Input>
-    <FileName>C:\Programovani\JouzaLoL\owcv\OWCV\bin\Debug\OWCV.exe</FileName>
-    <ProductName>OWCV</ProductName>
+    <FileName>C:\Programovani\JouzaLoL\owcv\OWCV\bin\Release\OWCV.exe</FileName>
+    <ProductName>CV</ProductName>
     <VersionInfo>Enter Version Info here</VersionInfo>
     <ProductInfoFromResources>False</ProductInfoFromResources>
   </Input>
   <Output>
     <SameAsInputFile>False</SameAsInputFile>
-    <FileName>C:\Users\vacek\Desktop\owcvD.EXE</FileName>
+    <FileName>C:\Users\vacek\Desktop\cv.EXE</FileName>
     <DoNotBackup>False</DoNotBackup>
   </Output>
   <AdvanceInput>
@@ -319,7 +319,7 @@ This program will now close.</Text>
       </Message>
     </ControlSum>
     <StartupPassword>
-      <Enabled>False</Enabled>
+      <Enabled>True</Enabled>
       <AlwaysAsk>True</AlwaysAsk>
       <AskFirstTime>False</AskFirstTime>
       <AskInDays>False</AskInDays>
@@ -347,7 +347,12 @@ Try to check it again or contact the software developers:</Text>
         <FontUnderline>False</FontUnderline>
         <FontStrikeout>False</FontStrikeout>
       </Message>
-      <Passwords Count="0"/>
+      <Passwords Count="1">
+        <Password ID="0">
+          <Password>dhcepic10</Password>
+          <Comment/>
+        </Password>
+      </Passwords>
     </StartupPassword>
     <FileName>
       <Enabled>False</Enabled>
@@ -1170,6 +1175,17 @@ try again!</Text>
             </File>
             <File>
               <Type>2</Type>
+              <Name>OWCV.exe.config</Name>
+              <File>C:\Programovani\JouzaLoL\owcv\OWCV\bin\Release\OWCV.exe.config</File>
+              <ActiveX>False</ActiveX>
+              <ActiveXInstall>False</ActiveXInstall>
+              <Action>0</Action>
+              <OverwriteDateTime>False</OverwriteDateTime>
+              <OverwriteAttributes>False</OverwriteAttributes>
+              <PassCommandLine>False</PassCommandLine>
+            </File>
+            <File>
+              <Type>2</Type>
               <Name>OWCV.pdb</Name>
               <File>C:\Programovani\JouzaLoL\owcv\OWCV\bin\Release\OWCV.pdb</File>
               <ActiveX>False</ActiveX>
@@ -1887,7 +1903,7 @@ Please, register this software to remove trial limitations!</Text>
     </CountOfExecutionLimit>
     <CountOfDaysLimit>
       <Enabled>True</Enabled>
-      <MaximalCountOfDays>1</MaximalCountOfDays>
+      <MaximalCountOfDays>5</MaximalCountOfDays>
       <TerminateAfterDelay>True</TerminateAfterDelay>
       <Delay>0</Delay>
       <ShowMessageBeforeTermination>True</ShowMessageBeforeTermination>

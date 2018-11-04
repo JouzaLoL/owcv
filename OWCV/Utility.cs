@@ -13,23 +13,31 @@ namespace OWCV
     internal class Utility
     {
         [DllImport("user32.dll")]
-        private static extern IntPtr GetForegroundWindow();
+        static extern bool SetForegroundWindow(IntPtr hWnd);
+        
+        public static void BringToFront(IntPtr pointer)
+        {
+            SetForegroundWindow(pointer);
+        }
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr GetForegroundWindow();
 
         public static IntPtr GetGameWindow()
         {
             var gameWindow = Process.GetProcessesByName("Overwatch");
-#if DEBUG
-            Debug.WriteLine(GetForegroundWindow() + " : " + gameWindow[0].MainWindowHandle);
-#endif
-            if (GetForegroundWindow() != gameWindow[0].MainWindowHandle)
-            {
-                return IntPtr.Zero;
-            }
             if (gameWindow.Length == 0)
             {
                 return IntPtr.Zero;
             }
-            return gameWindow[0].MainWindowHandle;
+            else if (GetForegroundWindow() != gameWindow[0].MainWindowHandle)
+            {
+                return gameWindow[0].MainWindowHandle;
+            }
+            else
+            {
+                return gameWindow[0].MainWindowHandle;
+            }   
         }
 
         [DllImport("user32.dll", EntryPoint = "FindWindow", SetLastError = true)]

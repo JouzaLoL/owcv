@@ -11,7 +11,16 @@ namespace OWCV
 {
     public class CVMain
     {
-        public static void Pipeline(Image<Bgr, byte> original, Size FOV)
+        public enum ColorMode
+        {
+            Red,
+            Magenta
+        }
+
+        public static Tuple<Hsv, Hsv> Red;
+        public static Tuple<Hsv, Hsv> Magenta = new Tuple<Hsv, Hsv>(new Hsv(132, 61, 170), new Hsv(163, 255, 255));
+
+        public static void Pipeline(Image<Bgr, byte> original, Size FOV, Tuple<Hsv, Hsv> colorRange)
         {
             var processed = original
                 .Convert<Hsv, byte>()

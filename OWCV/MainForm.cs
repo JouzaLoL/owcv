@@ -23,6 +23,10 @@ namespace OWCV
         public ThreadTimer TickTimer = new ThreadTimer();
         public IntPtr GameWindow;
         public int TickMsValue = 50;
+        public int FindOwRetryTime = 500;
+        public Color ErrorColor = Color.DarkRed;
+        public Color InfoColor = Color.DarkBlue;
+        public Color SuccessColor = Color.DarkGreen;
 
         public MainForm()
         {
@@ -35,8 +39,9 @@ namespace OWCV
                 Primary.BlueGrey500, Accent.LightBlue200, TextShade.WHITE);
 
 #if DEBUG
-            labelDebug.Visible = true;
+            Log("Running in debug mode.", InfoColor);
 #endif
+
             Form = this;
 
             FindOw.Tick += (s, a) =>
@@ -44,14 +49,23 @@ namespace OWCV
                 var gameWindow = Utility.GetGameWindow();
                 if (gameWindow == IntPtr.Zero)
                 {
-                    Log($"Game instance not found. Retrying in {FindOw.Interval / 1000} seconds", Color.DarkRed);
+                    Log($"Game instance not found. Retrying in {FindOw.Interval / 1000} seconds", ErrorColor);
                     FindOw.Stop();
-                    FindOw.Interval += 1000;
+                    FindOw.Interval += FindOwRetryTime;
                     FindOw.Start();
                 }
                 else
                 {
-                    Log("Game instance found! Injecting...", Color.DarkGreen);
+                    if (Utility.GetForegroundWindow() != gameWindow)
+                    {
+                        Log("Game instance found but not in focus. Bringing to focus and injecting...", SuccessColor);
+                        Utility.BringToFront(gameWindow);
+                        FindOw.Stop();
+                        GameWindow = gameWindow;
+                        Inject(gameWindow);
+                        return;
+                    }
+                    Log("Game instance found! Injecting...", SuccessColor);
                     FindOw.Stop();
                     GameWindow = gameWindow;
                     Inject(gameWindow);
@@ -101,7 +115,7 @@ namespace OWCV
                 source.Draw(roiRect, new Bgr(Color.AliceBlue));
 #endif
                 var roi = source.Copy(roiRect);
-                CVMain.Pipeline(roi, fov);
+                CVMain.Pipeline(roi, fov, CVMain.Magenta);
 #if DEBUG
                 CvInvoke.Imshow("Contours", roi);
 #endif
