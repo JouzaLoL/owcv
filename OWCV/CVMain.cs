@@ -41,40 +41,30 @@ namespace OWCV
             {
                 return;
             }
+
+#if !DEBUG
+            original.Dispose();
+#endif
+
 #if DEBUG
             CvInvoke.DrawContours(original, contours, -1, new MCvScalar(100, 0, 0));
 #endif
-            
 
             var crosshair = new PointF(FOV.Height / 2 - 10f, FOV.Height / 2 + 11);
-
-            
 #if DEBUG
             original.Draw(new Rectangle((int)crosshair.X, (int)crosshair.Y, 1, 1), new Bgr(Color.Coral));
 #endif
 
-//#if DEBUG
-//            CvInvoke.FillPoly(
-//                original,
-//                contours,
-//                new MCvScalar(255.0, 200, 0.0));
-//#endif
+#if DEBUG
+            CvInvoke.FillPoly(
+                original,
+                contours,
+                new MCvScalar(255.0, 200, 0.0));
+#endif
 
             for (var i = 0; i < contours.Size; i++)
             {
                 var currObj = contours[i];
-
-//#if DEBUG
-//                CvInvoke.FillPoly(
-//                    new VectorOfPoint(currObj.ToArray()), 
-//                    currObj,
-//                    new MCvScalar(255.0, 200, 0.0));
-//#endif
-
-                var polygon = currObj.ToArray();
-
-                var hull = CvInvoke.ConvexHull(currObj.ToArray().Select((p) => new PointF(p.X, p.Y)).ToArray());
-
                 var dist = CvInvoke.PointPolygonTest(currObj, crosshair, false);
 
                 if (dist > -1)

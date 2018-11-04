@@ -115,6 +115,9 @@ namespace OWCV
                 source.Draw(roiRect, new Bgr(Color.AliceBlue));
 #endif
                 var roi = source.Copy(roiRect);
+#if !DEBUG
+                source.Dispose();
+#endif
                 CVMain.Pipeline(roi, fov, CVMain.Magenta);
 #if DEBUG
                 CvInvoke.Imshow("Contours", roi);
