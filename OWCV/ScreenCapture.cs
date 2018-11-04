@@ -19,18 +19,20 @@ namespace OWCV
 
         public static Bitmap CaptureWindow(IntPtr windowHandle)
         {
-            using (Bitmap bp = new Bitmap(Screen.PrimaryScreen.Bounds.Size.Width, Screen.PrimaryScreen.Bounds.Size.Height))
+            ScreenCapture.User32.RECT windowRect = new ScreenCapture.User32.RECT();
+            ScreenCapture.User32.GetClientRect(windowHandle, ref windowRect);
+
+            int width = windowRect.right - windowRect.left;
+            int height = windowRect.bottom - windowRect.top;
+            using (Bitmap bp = new Bitmap(width, height))
             {
                 using (Graphics g = Graphics.FromImage(bp))
                 {
-                    g.CopyFromScreen(0, 0, 0, 0, Screen.PrimaryScreen.Bounds.Size, CopyPixelOperation.SourceCopy);
+                    
+                    g.CopyFromScreen(windowRect.left, windowRect.top, 0, 0, new Size(width, height), CopyPixelOperation.SourceCopy);
 
-                    ScreenCapture.User32.RECT windowRect = new ScreenCapture.User32.RECT();
-                    ScreenCapture.User32.GetWindowRect(windowHandle, ref windowRect);
-
-                    int width = windowRect.right - windowRect.left - 20;
-                    int height = windowRect.bottom - windowRect.top - 20;
-                    var rect = new Rectangle(new Point(windowRect.left + 7, windowRect.top), new Size(width, height));
+                    
+                    var rect = new Rectangle(new Point(windowRect.left, windowRect.top), new Size(width, height));
                     return bp.Clone(rect, PixelFormat.Format32bppRgb);
                 }
             }
@@ -140,6 +142,9 @@ namespace OWCV
 
             [DllImport("user32.dll")]
             public static extern IntPtr GetWindowRect(IntPtr hWnd, ref RECT rect);
+
+            [DllImport("user32.dll")]
+            public static extern bool GetClientRect(IntPtr hWnd, ref RECT lpRect);
         }
     }
 }
