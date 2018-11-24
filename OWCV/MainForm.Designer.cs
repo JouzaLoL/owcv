@@ -34,7 +34,9 @@
             this.tickMsLabel = new System.Windows.Forms.Label();
             this.tickSpeedMsValue = new System.Windows.Forms.Label();
             this.materialRaisedButton1 = new MaterialSkin.Controls.MaterialRaisedButton();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.tickMs)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // labelDebug
@@ -72,7 +74,7 @@
             this.tickMs.LargeChange = 10;
             this.tickMs.Location = new System.Drawing.Point(276, 195);
             this.tickMs.Maximum = 100;
-            this.tickMs.Minimum = 10;
+            this.tickMs.Minimum = 1;
             this.tickMs.Name = "tickMs";
             this.tickMs.Size = new System.Drawing.Size(172, 45);
             this.tickMs.SmallChange = 5;
@@ -117,21 +119,31 @@
             this.materialRaisedButton1.UseVisualStyleBackColor = true;
             this.materialRaisedButton1.Click += new System.EventHandler(this.materialRaisedButton1_Click);
             // 
-            // OWCV
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(16, 247);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(155, 226);
+            this.pictureBox1.TabIndex = 7;
+            this.pictureBox1.TabStop = false;
+            // 
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(460, 252);
+            this.ClientSize = new System.Drawing.Size(468, 485);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.materialRaisedButton1);
             this.Controls.Add(this.tickSpeedMsValue);
             this.Controls.Add(this.tickMsLabel);
             this.Controls.Add(this.tickMs);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.labelDebug);
-            this.Name = "OWCV";
+            this.Name = "MainForm";
             this.Text = "OWCV";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.tickMs)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -144,6 +156,7 @@
         private System.Windows.Forms.Label tickMsLabel;
         private System.Windows.Forms.Label tickSpeedMsValue;
         private MaterialSkin.Controls.MaterialRaisedButton materialRaisedButton1;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
 

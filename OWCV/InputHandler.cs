@@ -36,9 +36,6 @@ namespace OWCV
             var msSinceLastFire = DateTime.Now.Subtract(_lastFireTime).Milliseconds;
             if (msSinceLastFire > fireDelay)
             {
-#if DEBUG
-                Debug.WriteLine(msSinceLastFire);
-#endif
                 PostMouseClick();
                 _lastFireTime = DateTime.Now;
             }

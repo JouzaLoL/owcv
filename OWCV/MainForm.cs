@@ -92,43 +92,28 @@ namespace OWCV
 #if DEBUG
             CvInvoke.NamedWindow("Contours", NamedWindowType.FreeRatio);
 #endif
-            var gameWindowRes = ScreenCapture.GetWindowRes(gameWindow);
-
             // FOV
-            var fov = new Size(200, 200);
-            var roiRect =
-                new Rectangle(
-                    new Point(gameWindowRes.Width / 2 - fov.Height / 2, gameWindowRes.Height / 2 - fov.Height / 2),
-                    fov);
+            var fov = new Size(25, 25);
 
             TickTimer = new ThreadTimer(TickMsValue);
-            TickTimer.Elapsed += (s, a) => { ProcessFrame(fov, roiRect, gameWindow); };
+            TickTimer.Elapsed += (s, a) => { ProcessFrame(fov, gameWindow); };
 
             TickTimer.Start();
         }
 
-        private void ProcessFrame(Size fov, Rectangle roiRect, IntPtr gameWindow)
+        private void ProcessFrame(Size fov, IntPtr gameWindow)
         {
             try
             {
-                var bmp = ScreenCaptureDesktop.CaptureWindow(gameWindow);
+                var bmp = ScreenCaptureDesktop.CaptureWindow(gameWindow, fov);
                 var source = new Image<Bgr, byte>(bmp);
+                
                 bmp.Dispose();
-#if DEBUG
-                source.Draw(source.Data.Length.ToString(), new Point(40, 40), FontFace.HersheyDuplex, 1, new Bgr(Color.Red));
-                source.Draw(roiRect, new Bgr(Color.AliceBlue));
-#endif
-                var roi = source.Copy(roiRect);
-#if !DEBUG
-                source.Dispose();
-#endif
-                if (CVMain.Pipeline(roi, fov, CVMain.Magenta))
+
+                if (CVMain.PipelineFast(source, fov, CVMain.Magenta))
                 {
                     InputHandler.Fire();
                 }
-#if DEBUG
-                CvInvoke.Imshow("Contours", roi);
-#endif
                 source.Dispose();
             }
             catch (Exception e)

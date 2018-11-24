@@ -33,6 +33,28 @@ namespace OWCV
                 return bp;
             }
         }
+
+        public static Bitmap CaptureWindow(IntPtr windowHandle, Size fov)
+        {
+            var windowRect = new ScreenCapture.User32.RECT();
+            ScreenCapture.User32.GetClientRect(windowHandle, ref windowRect);
+
+            var width = windowRect.right - windowRect.left;
+            var height = windowRect.bottom - windowRect.top;
+
+            var roiRect =
+                new Rectangle(
+                    new Point(width / 2 - fov.Width / 2, height / 2 - fov.Height / 2),
+                    fov);
+
+            var bp = new Bitmap(fov.Width, fov.Height);
+            using (var g = Graphics.FromImage(bp))
+            {
+                g.CopyFromScreen(roiRect.Left, roiRect.Top, 0, 0, fov,
+                    CopyPixelOperation.SourceCopy);
+                return bp;
+            }
+        }
     }
 }
 
