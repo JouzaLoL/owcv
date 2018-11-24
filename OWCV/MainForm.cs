@@ -24,9 +24,12 @@ namespace OWCV
         public IntPtr GameWindow;
         public int TickMsValue = 50;
         public int FindOwRetryTime = 500;
+        public InputHandler InputHandler;
+
         public Color ErrorColor = Color.DarkRed;
         public Color InfoColor = Color.DarkBlue;
         public Color SuccessColor = Color.DarkGreen;
+        
 
         public MainForm()
         {
@@ -62,6 +65,7 @@ namespace OWCV
                         Utility.BringToFront(gameWindow);
                         FindOw.Stop();
                         GameWindow = gameWindow;
+                        InputHandler = new InputHandler(GameWindow);
                         Inject(gameWindow);
                         return;
                     }
@@ -118,7 +122,10 @@ namespace OWCV
 #if !DEBUG
                 source.Dispose();
 #endif
-                CVMain.Pipeline(roi, fov, CVMain.Magenta);
+                if (CVMain.Pipeline(roi, fov, CVMain.Magenta))
+                {
+                    InputHandler.Fire();
+                }
 #if DEBUG
                 CvInvoke.Imshow("Contours", roi);
 #endif

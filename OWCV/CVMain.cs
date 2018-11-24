@@ -20,7 +20,7 @@ namespace OWCV
         public static Tuple<Hsv, Hsv> Red;
         public static Tuple<Hsv, Hsv> Magenta = new Tuple<Hsv, Hsv>(new Hsv(132, 61, 170), new Hsv(163, 255, 255));
 
-        public static void Pipeline(Image<Bgr, byte> original, Size FOV, Tuple<Hsv, Hsv> colorRange)
+        public static bool Pipeline(Image<Bgr, byte> original, Size FOV, Tuple<Hsv, Hsv> colorRange)
         {
             var processed = original
                 .Convert<Hsv, byte>()
@@ -39,7 +39,7 @@ namespace OWCV
             
             if (contours.Size == 0)
             {
-                return;
+                return false;
             }
 
 #if !DEBUG
@@ -69,10 +69,10 @@ namespace OWCV
 
                 if (dist > -1)
                 {
-                    Utility.DoMouseClick();
-                    return;
+                    return true;
                 }
             }
+            return false;
         }
 
         public static Image<Gray, byte> FilterRed(Image<Bgr, byte> original)
