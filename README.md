@@ -15,7 +15,10 @@
 - https://github.com/Netdex/android-hid-script
 - https://github.com/pelya/android-keyboard-gadget
 - http://zx.rs/6/DroidDucky---Can-an-Android-quack-like-a-duck/
+- **https://github.com/tejado/Authorizer/**
 
-#### How to use the HID
-
+### How to use the HID
+ - done
+ 
 ### How to send commands to app from PC
+
