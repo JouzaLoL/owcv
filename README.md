@@ -21,4 +21,4 @@
  - done
  
 ### How to send commands to app from PC
-
+- https://www.codeproject.com/Articles/340714/Android-How-to-communicate-with-NET-application-vi
