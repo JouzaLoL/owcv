@@ -1,10 +1,10 @@
 ﻿using Emgu.CV;
+using Emgu.CV.CvEnum;
 using Emgu.CV.Structure;
 using MaterialSkin;
 using MaterialSkin.Controls;
 using System;
 using System.Drawing;
-using Emgu.CV.CvEnum;
 using FormTimer = System.Windows.Forms.Timer;
 using ThreadTimer = System.Timers.Timer;
 
@@ -21,15 +21,20 @@ namespace OWCV
 
         public FormTimer FindOw = new FormTimer();
         public ThreadTimer TickTimer = new ThreadTimer();
+
         public IntPtr GameWindow;
+
         public int TickMsValue = 50;
         public int FindOwRetryTime = 500;
+
         public InputHandler InputHandler;
+
+        public WebsocketClient wsClient;
 
         public Color ErrorColor = Color.DarkRed;
         public Color InfoColor = Color.DarkBlue;
         public Color SuccessColor = Color.DarkGreen;
-        
+
 
         public MainForm()
         {
@@ -49,9 +54,11 @@ namespace OWCV
 
             FindOw.Tick += (s, a) =>
             {
+                wsClient.Fire();
                 var gameWindow = Utility.GetGameWindow();
                 if (gameWindow == IntPtr.Zero)
                 {
+                    
                     Log($"Game instance not found. Retrying in {FindOw.Interval / 1000} seconds", ErrorColor);
                     FindOw.Stop();
                     FindOw.Interval += FindOwRetryTime;
@@ -69,6 +76,7 @@ namespace OWCV
                         Inject(gameWindow);
                         return;
                     }
+
                     Log("Game instance found! Injecting...", SuccessColor);
                     FindOw.Stop();
                     GameWindow = gameWindow;
@@ -82,6 +90,8 @@ namespace OWCV
             Log("Attempting to find game instance...");
             FindOw.Interval = 1;
             FindOw.Start();
+
+            wsClient = new WebsocketClient();
         }
 
         /// <summary>
@@ -107,13 +117,14 @@ namespace OWCV
             {
                 var bmp = ScreenCaptureDesktop.CaptureWindow(gameWindow, fov);
                 var source = new Image<Bgr, byte>(bmp);
-                
+
                 bmp.Dispose();
 
                 if (CVMain.PipelineFast(source, fov, CVMain.Magenta))
                 {
                     InputHandler.Fire();
                 }
+
                 source.Dispose();
             }
             catch (Exception e)
@@ -156,6 +167,11 @@ namespace OWCV
         private void labelDebug_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void materialFlatButton1_Click(object sender, EventArgs e)
+        {
+            wsClient.Fire();
         }
     }
 }
