@@ -1,5 +1,13 @@
 # owcv
 
+
+# Current bottleneck is PC<->Android comm speed. (Web)Sockets are too slow
+- Simulate touch events via adb
+  - https://stackoverflow.com/questions/18924968/using-adb-to-access-a-particular-ui-control-on-the-screen
+
+android shell command to send K keystroke:
+```printf '\x02\x00\x0e\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' > /dev/hidg0```
+
 ## Ways to emulate a HID Keyboard
 - Arduino-like (Micro, Teensy etc.)
   - https://www.unknowncheats.me/forum/c-/304403-arduino-keyboard-mouse-control.html
@@ -36,5 +44,3 @@
 - proccess images sequentially, one after another, not thru timers. This way its as fast as possible
 - use one thread for capturing and another for analyzing
 - reuse bitmap contexts, minimize creating new ones
-
-# Current bottlenec is the Input speed. Arduino should solve this
