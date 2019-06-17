@@ -1,9 +1,9 @@
 # owcv
 
-
-# Current bottleneck is PC<->Android comm speed. (Web)Sockets are too slow
-- Simulate touch events via adb - TOO SLOW
-  - https://stackoverflow.com/questions/18924968/using-adb-to-access-a-particular-ui-control-on-the-screen
+# CV
+- verify that FOV is center of screen
+- if above is true, find result for missing shots
+- find another bottleneck
   
 ## Use adb shell
   - android shell command to send K keystroke:
