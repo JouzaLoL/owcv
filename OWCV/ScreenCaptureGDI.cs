@@ -1,19 +1,30 @@
 ﻿using System;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 
 namespace OWCV
 {
-    public static class ScreenCaptureGDI
+    public class ScreenCaptureGDI
     {
-        /// <summary>
-        /// Creates an Image object containing a screen shot of the entire desktop
-        /// </summary>
-        /// <returns></returns>
-        public static Bitmap CaptureScreen()
+        public IntPtr WindowHandle;
+        public IntPtr hdcSrc;
+        public IntPtr hdcDest;
+        public IntPtr hBitmap;
+
+        public ScreenCaptureGDI(IntPtr windowHandle, int fov = 5)
         {
-            return CaptureWindow(User32.GetDesktopWindow());
+            WindowHandle = windowHandle;
+            // TODO: optimize this to only copy over FOV
+            // TODO: optimize this to reuse pointers and bitmaps
+            // get te hDC of the target window
+            hdcSrc = User32.GetWindowDC(windowHandle);
+
+            // create a device context we can copy to
+            hdcDest = GDI32.CreateCompatibleDC(hdcSrc);
+
+            // create a bitmap we can copy it to,
+            // using GetDeviceCaps to get the width/height
+            hBitmap = GDI32.CreateCompatibleBitmap(hdcSrc, fov, fov);
         }
 
         /// <summary>
@@ -22,34 +33,26 @@ namespace OWCV
         /// <param name="handle">The handle to the window. (In windows forms, this is obtained by the Handle property)</param>
         /// <param name="fov">Field of view</param>
         /// <returns></returns>
-        public static Bitmap CaptureWindow(IntPtr handle, int fov = 5)
+        public Bitmap CaptureWindow(int fov = 5)
         {
-            // TODO: optimize this to only copy over FOV
-            // get te hDC of the target window
-            IntPtr hdcSrc = User32.GetWindowDC(handle);
             // get the size
             User32.RECT windowRect = new User32.RECT();
-            User32.GetWindowRect(handle, ref windowRect);
+            User32.GetWindowRect(WindowHandle, ref windowRect);
             int width = windowRect.right - windowRect.left;
             int height = windowRect.bottom - windowRect.top;
-            // create a device context we can copy to
-            IntPtr hdcDest = GDI32.CreateCompatibleDC(hdcSrc);
-            // create a bitmap we can copy it to,
-            // using GetDeviceCaps to get the width/height
-            IntPtr hBitmap = GDI32.CreateCompatibleBitmap(hdcSrc, width, height);
+
             // select the bitmap object
             IntPtr hOld = GDI32.SelectObject(hdcDest, hBitmap);
+
             // bitblt over
-            GDI32.BitBlt(hdcDest, 0, 0, width, height, hdcSrc, 0, 0, GDI32.SRCCOPY);
+            GDI32.BitBlt(hdcDest, 0, 0, fov, fov, hdcSrc, width / 2 - fov, height / 2 - fov, GDI32.SRCCOPY);
+
             // restore selection
             GDI32.SelectObject(hdcDest, hOld);
-            // clean up 
-            GDI32.DeleteDC(hdcDest);
-            User32.ReleaseDC(handle, hdcSrc);
+
             // get a .NET image object for it
             Bitmap img = Image.FromHbitmap(hBitmap);
-            // free up the Bitmap object
-            GDI32.DeleteObject(hBitmap);
+
             return img;
         }
 

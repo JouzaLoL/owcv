@@ -30,14 +30,14 @@
         {
             this.labelDebug = new MaterialSkin.Controls.MaterialLabel();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.tickMs = new System.Windows.Forms.TrackBar();
             this.tickMsLabel = new System.Windows.Forms.Label();
             this.tickSpeedMsValue = new System.Windows.Forms.Label();
             this.materialRaisedButton1 = new MaterialSkin.Controls.MaterialRaisedButton();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.materialFlatButton1 = new MaterialSkin.Controls.MaterialFlatButton();
-            ((System.ComponentModel.ISupportInitialize)(this.tickMs)).BeginInit();
+            this.tickMs = new System.Windows.Forms.TrackBar();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tickMs)).BeginInit();
             this.SuspendLayout();
             // 
             // labelDebug
@@ -68,21 +68,6 @@
             this.richTextBox1.TabIndex = 2;
             this.richTextBox1.Text = "";
             this.richTextBox1.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged);
-            // 
-            // tickMs
-            // 
-            this.tickMs.BackColor = System.Drawing.Color.White;
-            this.tickMs.LargeChange = 10;
-            this.tickMs.Location = new System.Drawing.Point(276, 195);
-            this.tickMs.Maximum = 100;
-            this.tickMs.Minimum = 1;
-            this.tickMs.Name = "tickMs";
-            this.tickMs.Size = new System.Drawing.Size(172, 45);
-            this.tickMs.SmallChange = 5;
-            this.tickMs.TabIndex = 3;
-            this.tickMs.TickFrequency = 10;
-            this.tickMs.Value = 50;
-            this.tickMs.Scroll += new System.EventHandler(this.tickMs_Scroll);
             // 
             // tickMsLabel
             // 
@@ -133,7 +118,7 @@
             this.materialFlatButton1.AutoSize = true;
             this.materialFlatButton1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.materialFlatButton1.Depth = 0;
-            this.materialFlatButton1.Location = new System.Drawing.Point(199, 343);
+            this.materialFlatButton1.Location = new System.Drawing.Point(320, 238);
             this.materialFlatButton1.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.materialFlatButton1.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialFlatButton1.Name = "materialFlatButton1";
@@ -143,6 +128,21 @@
             this.materialFlatButton1.Text = "Send Fire Key (K)";
             this.materialFlatButton1.UseVisualStyleBackColor = true;
             this.materialFlatButton1.Click += new System.EventHandler(this.materialFlatButton1_Click);
+            // 
+            // tickMs
+            // 
+            this.tickMs.BackColor = System.Drawing.Color.White;
+            this.tickMs.LargeChange = 10;
+            this.tickMs.Location = new System.Drawing.Point(276, 195);
+            this.tickMs.Maximum = 100;
+            this.tickMs.Minimum = 1;
+            this.tickMs.Name = "tickMs";
+            this.tickMs.Size = new System.Drawing.Size(172, 45);
+            this.tickMs.SmallChange = 5;
+            this.tickMs.TabIndex = 3;
+            this.tickMs.TickFrequency = 10;
+            this.tickMs.Value = 50;
+            this.tickMs.Scroll += new System.EventHandler(this.tickMs_Scroll);
             // 
             // MainForm
             // 
@@ -160,8 +160,8 @@
             this.Name = "MainForm";
             this.Text = "OWCV";
             this.Load += new System.EventHandler(this.Form1_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.tickMs)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tickMs)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -170,12 +170,12 @@
         #endregion
         private MaterialSkin.Controls.MaterialLabel labelDebug;
         private System.Windows.Forms.RichTextBox richTextBox1;
-        private System.Windows.Forms.TrackBar tickMs;
         private System.Windows.Forms.Label tickMsLabel;
         private System.Windows.Forms.Label tickSpeedMsValue;
         private MaterialSkin.Controls.MaterialRaisedButton materialRaisedButton1;
         private System.Windows.Forms.PictureBox pictureBox1;
         private MaterialSkin.Controls.MaterialFlatButton materialFlatButton1;
+        private System.Windows.Forms.TrackBar tickMs;
     }
 }
 

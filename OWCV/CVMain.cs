@@ -75,18 +75,12 @@ namespace OWCV
             return false;
         }
 
-        public static bool PipelineFast(Image<Bgr, byte> original, Size FOV, Tuple<Hsv, Hsv> colorRange)
+        public static bool PipelineFast(Image<Bgr, byte> original, Tuple<Hsv, Hsv> colorRange)
         {
             var processed = original
                 .Convert<Hsv, byte>()
-                .InRange(colorRange.Item1, colorRange.Item2)
-                .ThresholdToZero(new Gray(50));
+                .InRange(colorRange.Item1, colorRange.Item2);
 
-            var crosshair = new Point(FOV.Height / 2, FOV.Height / 2);
-#if DEBUG
-            original.Draw(new Rectangle(crosshair.X, crosshair.Y, 1, 1), new Bgr(Color.Coral));
-            CvInvoke.Imshow("Contours", processed);
-#endif
             var mean = processed.GetAverage();
             
             if (mean.Intensity > 0)

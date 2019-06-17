@@ -5,25 +5,27 @@ using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Timers;
+using System.Windows.Forms;
 
 namespace OWCV
 {
     public class GameHandler
     {
-
-        public Timer TickTimer = new Timer();
-        public int TickMsValue = 8;
-
         public IntPtr GameWindow;
         public InputProxy InputProxy;
+        public InputHandler InputHandler;
 
         public int FireDelay = 300;
         public DateTime LastFireTime;
+
+        public ScreenCaptureGDI ScreenCapture;
 
         public GameHandler(IntPtr gameWindow)
         {
             GameWindow = gameWindow;
             InputProxy = new InputProxy();
+            InputHandler = new InputHandler(gameWindow);
+            ScreenCapture = new ScreenCaptureGDI(gameWindow);
         }
 
         /// <summary>
@@ -31,39 +33,31 @@ namespace OWCV
         /// </summary>
         public void Inject()
         {
-#if DEBUG
-            CvInvoke.NamedWindow("Contours", NamedWindowType.FreeRatio);
-#endif
-            // FOV
-            var fov = new Size(5, 5);
-
+            var s = new Stopwatch();
             while (true)
             {
-                ProcessFrame(fov, GameWindow);
+                s.Reset();
+                s.Start();
+                ProcessFrame();
+                Debug.WriteLine(s.ElapsedMilliseconds);
             }
-
-            TickTimer = new Timer(TickMsValue);
-            TickTimer.Elapsed += (s, a) =>
-            {
-                ProcessFrame(fov, GameWindow);
-            };
-
-            TickTimer.Start();
         }
 
-        private void ProcessFrame(Size fov, IntPtr gameWindow)
+        private void ProcessFrame()
         {
             try
             {
-                var bmp = ScreenCaptureGDI.CaptureWindow(gameWindow);
+                var bmp = ScreenCapture.CaptureWindow();
+                MainForm.Form.UpdatePicture(bmp);
                 var source = new Image<Bgr, byte>(bmp);
-
+#if DEBUG
+                CvInvoke.Imshow("Contours", source);
+#endif
                 bmp.Dispose();
 
-                if (CVMain.PipelineFast(source, fov, CVMain.Magenta) && CanFire())
+                if (CVMain.PipelineFast(source, CVMain.Magenta) && CanFire())
                 {
-                    Debug.WriteLine("Firing!");
-                    InputProxy.SendAction(InputProxy.Action.Fire);
+                    InputHandler.Fire();
                 }
 
                 source.Dispose();

@@ -27,7 +27,6 @@ namespace OWCV
 
         public void Send(byte[] command)
         {
-            Debug.WriteLine("Broadcasting command " + command[0]);
             wsServer.WebSocketServices.Broadcast(command);
         }
     }

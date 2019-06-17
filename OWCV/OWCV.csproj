@@ -102,6 +102,7 @@
     <Compile Include="CVMain.cs" />
     <Compile Include="CVUtils.cs" />
     <Compile Include="GameHandler.cs" />
+    <Compile Include="InputHandler.cs" />
     <Compile Include="InputProxy.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>

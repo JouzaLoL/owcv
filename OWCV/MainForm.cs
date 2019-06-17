@@ -13,6 +13,7 @@ namespace OWCV
     public interface ILog
     {
         void Log(string message, Color? color = null);
+        void UpdatePicture(Bitmap b);
     }
 
     public partial class MainForm : MaterialForm, ILog
@@ -86,6 +87,11 @@ namespace OWCV
         public void Log(string message)
         {
             richTextBox1.AppendText(message + "\n");
+        }
+
+        public void UpdatePicture(Bitmap bp)
+        {
+            pictureBox1.Image = bp;
         }
 
         // ReSharper disable once MethodOverloadWithOptionalParameter
