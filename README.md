@@ -16,16 +16,12 @@
 - https://github.com/pelya/android-keyboard-gadget
 - http://zx.rs/6/DroidDucky---Can-an-Android-quack-like-a-duck/
 - **https://github.com/tejado/Authorizer/**
-
-### How to use the HID
- - done
  
 ### How to send commands to app from PC
-- https://www.codeproject.com/Articles/340714/Android-How-to-communicate-with-NET-application-vi
 - https://github.com/TooTallNate/Java-WebSocket
 - https://github.com/sta/websocket-sharp
 
-## Fastest way to capture desktop ( preferably event-based
+## Fastest way to capture desktop ( preferably event-based )
 - Basically 3 ways:
   - Bitmap.CopyFromScreen
     - Slowest
@@ -40,3 +36,5 @@
 - proccess images sequentially, one after another, not thru timers. This way its as fast as possible
 - use one thread for capturing and another for analyzing
 - reuse bitmap contexts, minimize creating new ones
+
+# Current bottlenec is the Input speed. Arduino should solve this
