@@ -6,7 +6,8 @@
   - https://stackoverflow.com/questions/18924968/using-adb-to-access-a-particular-ui-control-on-the-screen
 
 android shell command to send K keystroke:
-```printf '\x02\x00\x0e\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' > /dev/hidg0```
+
+shell```printf '\x02\x00\x0e\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' > /dev/hidg0```
 
 ## Ways to emulate a HID Keyboard
 - Arduino-like (Micro, Teensy etc.)
