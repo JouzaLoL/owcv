@@ -7,7 +7,11 @@
 
 android shell command to send K keystroke:
 
-shell```printf '\x02\x00\x0e\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' > /dev/hidg0```
+```printf '\x02\x00\x0e\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' > /dev/hidg0```
+
+- Open adb shell, elevate permission and send commands
+- https://stackoverflow.com/questions/3308500/run-interactive-command-line-exe-using-c-sharp
+
 
 ## Ways to emulate a HID Keyboard
 - Arduino-like (Micro, Teensy etc.)
