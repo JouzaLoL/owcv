@@ -20,21 +20,13 @@ namespace OWCV
         public static ILog Form;
 
         public FormTimer FindOw = new FormTimer();
-        public ThreadTimer TickTimer = new ThreadTimer();
-
-        public IntPtr GameWindow;
-
-        public int TickMsValue = 50;
         public int FindOwRetryTime = 500;
-
-        public InputHandler InputHandler;
-
-        public WebsocketClient wsClient;
 
         public Color ErrorColor = Color.DarkRed;
         public Color InfoColor = Color.DarkBlue;
         public Color SuccessColor = Color.DarkGreen;
 
+        public GameHandler GameHandler;
 
         public MainForm()
         {
@@ -54,11 +46,9 @@ namespace OWCV
 
             FindOw.Tick += (s, a) =>
             {
-                wsClient.Fire();
                 var gameWindow = Utility.GetGameWindow();
                 if (gameWindow == IntPtr.Zero)
                 {
-                    
                     Log($"Game instance not found. Retrying in {FindOw.Interval / 1000} seconds", ErrorColor);
                     FindOw.Stop();
                     FindOw.Interval += FindOwRetryTime;
@@ -71,16 +61,15 @@ namespace OWCV
                         Log("Game instance found but not in focus. Bringing to focus and injecting...", SuccessColor);
                         Utility.BringToFront(gameWindow);
                         FindOw.Stop();
-                        GameWindow = gameWindow;
-                        InputHandler = new InputHandler(GameWindow);
-                        Inject(gameWindow);
+                        GameHandler = new GameHandler(gameWindow);
+                        GameHandler.Inject();
                         return;
                     }
 
                     Log("Game instance found! Injecting...", SuccessColor);
                     FindOw.Stop();
-                    GameWindow = gameWindow;
-                    Inject(gameWindow);
+                    GameHandler = new GameHandler(gameWindow);
+                    GameHandler.Inject();
                 }
             };
         }
@@ -90,49 +79,9 @@ namespace OWCV
             Log("Attempting to find game instance...");
             FindOw.Interval = 1;
             FindOw.Start();
-
-            wsClient = new WebsocketClient();
         }
 
-        /// <summary>
-        /// Starts capturing OW
-        /// </summary>
-        public void Inject(IntPtr gameWindow)
-        {
-#if DEBUG
-            CvInvoke.NamedWindow("Contours", NamedWindowType.FreeRatio);
-#endif
-            // FOV
-            var fov = new Size(25, 25);
-
-            TickTimer = new ThreadTimer(TickMsValue);
-            TickTimer.Elapsed += (s, a) => { ProcessFrame(fov, gameWindow); };
-
-            TickTimer.Start();
-        }
-
-        private void ProcessFrame(Size fov, IntPtr gameWindow)
-        {
-            try
-            {
-                var bmp = ScreenCaptureDesktop.CaptureWindow(gameWindow, fov);
-                var source = new Image<Bgr, byte>(bmp);
-
-                bmp.Dispose();
-
-                if (CVMain.PipelineFast(source, fov, CVMain.Magenta))
-                {
-                    InputHandler.Fire();
-                }
-
-                source.Dispose();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
-        }
+        
 
         public void Log(string message)
         {
@@ -156,8 +105,6 @@ namespace OWCV
 
         private void materialRaisedButton1_Click(object sender, EventArgs e)
         {
-            TickTimer.Stop();
-            TickTimer.Interval = tickMs.Value;
             Log("Settings changed, reloading...", Color.DarkBlue);
             FindOw.Stop();
             Form1_Load(this, null);
@@ -171,7 +118,6 @@ namespace OWCV
 
         private void materialFlatButton1_Click(object sender, EventArgs e)
         {
-            wsClient.Fire();
         }
     }
 }

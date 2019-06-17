@@ -35,5 +35,17 @@ namespace OWCV
             //return false;
             return false;
         }
+
+        public static void DrawOnScreen(Rectangle rect)
+        {
+            IntPtr desktopPtr = ScreenCapture.User32.GetWindowDC(IntPtr.Zero);
+            Graphics g = Graphics.FromHdc(desktopPtr);
+
+            SolidBrush b = new SolidBrush(Color.Red);
+            g.FillRectangle(b, rect);
+
+            g.Dispose();
+            ScreenCapture.User32.ReleaseDC(IntPtr.Zero, desktopPtr);
+        }
     }
 }

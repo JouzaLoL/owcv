@@ -18,7 +18,7 @@ namespace OWCV
             Magenta
         }
 
-        public static Tuple<Hsv, Hsv> Red;
+        public static Tuple<Hsv, Hsv> Red = new Tuple<Hsv, Hsv>(new Hsv(0, 82, 0), new Hsv(5, 255, 255));
         public static Tuple<Hsv, Hsv> Magenta = new Tuple<Hsv, Hsv>(new Hsv(132, 61, 170), new Hsv(163, 255, 255));
 
         public static bool Pipeline(Image<Bgr, byte> original, Size FOV, Tuple<Hsv, Hsv> colorRange)
@@ -79,10 +79,7 @@ namespace OWCV
         {
             var processed = original
                 .Convert<Hsv, byte>()
-                .InRange(new Hsv(132, 61, 170), new Hsv(163, 255, 255))
-                .Dilate(1)
-                .Erode(1)
-                .SmoothGaussian(5)
+                .InRange(colorRange.Item1, colorRange.Item2)
                 .ThresholdToZero(new Gray(50));
 
             var crosshair = new Point(FOV.Height / 2, FOV.Height / 2);
@@ -91,17 +88,18 @@ namespace OWCV
             CvInvoke.Imshow("Contours", processed);
 #endif
             var mean = processed.GetAverage();
-            Debug.WriteLine(mean.Intensity);
+            
             if (mean.Intensity > 0)
             {
                 return true;
             }
             return false;
         }
+
         public static Image<Gray, byte> FilterRed(Image<Bgr, byte> original)
         {
             var hsvImage = original.Convert<Hsv, byte>();
-            return hsvImage.InRange(new Hsv(0, 82, 0), new Hsv(5, 255, 255));
+            return hsvImage.InRange(Red.Item1, Red.Item2);
         }
 
         public static Image<Gray, byte> Canny(Image<Gray, byte> original)

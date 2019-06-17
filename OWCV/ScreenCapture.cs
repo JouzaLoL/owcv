@@ -47,6 +47,8 @@ namespace OWCV
                     new Point(width / 2 - fov.Width / 2, height / 2 - fov.Height / 2),
                     fov);
 
+            // CVUtils.DrawOnScreen(roiRect);
+
             var bp = new Bitmap(fov.Width, fov.Height);
             using (var g = Graphics.FromImage(bp))
             {
@@ -54,6 +56,7 @@ namespace OWCV
                     CopyPixelOperation.SourceCopy);
                 return bp;
             }
+
         }
     }
 }

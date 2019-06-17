@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using OWCV;
 using WebSocketSharp;
 using WebSocketSharp.Server;
@@ -9,28 +10,25 @@ namespace OWCV
     {
         protected override void OnMessage(MessageEventArgs e)
         {
-            var msg = e.Data == "BALUS"
-                ? "I've been balused already..."
-                : "I'm not available now.";
 
-            Send(msg);
         }
     }
 
-    public class WebsocketClient
+    public class WebsocketServer
     {
         private WebSocketServer wsServer;
-        public WebsocketClient()
+        public WebsocketServer()
         {
+            Utility.StartADBPortForward();
             wsServer = new WebSocketServer("ws://192.168.88.200:5555");
             wsServer.AddWebSocketService<Laputa>("/");
             wsServer.Start();
-            wsServer.WebSocketServices.Broadcast("FIRE");
         }
 
-        public void Fire()
+        public void Send(byte[] command)
         {
-            wsServer.WebSocketServices.Broadcast("FIRE");
+            Debug.WriteLine("Broadcasting command " + command[0]);
+            wsServer.WebSocketServices.Broadcast(command);
         }
     }
 }
