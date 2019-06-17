@@ -12,19 +12,6 @@ namespace OWCV
 {
     internal class Utility
     {
-        public static void StartADBPortForward(int port = 5555)
-        {
-            Process process = new Process();
-            ProcessStartInfo startInfo = new ProcessStartInfo
-            {
-                WindowStyle = ProcessWindowStyle.Hidden,
-                FileName = "cmd.exe",
-                Arguments = $"/C adb forward tcp:{port.ToString()} tcp:{port.ToString()}"
-            };
-            process.StartInfo = startInfo;
-            process.Start();
-        }
-
         [DllImport("user32.dll")]
         static extern bool SetForegroundWindow(IntPtr hWnd);
         

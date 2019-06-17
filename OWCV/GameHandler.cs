@@ -39,7 +39,7 @@ namespace OWCV
                 s.Reset();
                 s.Start();
                 ProcessFrame();
-                Debug.WriteLine(s.ElapsedMilliseconds);
+                // Debug.WriteLine(s.ElapsedMilliseconds);
             }
         }
 
@@ -48,16 +48,12 @@ namespace OWCV
             try
             {
                 var bmp = ScreenCapture.CaptureWindow();
-                MainForm.Form.UpdatePicture(bmp);
                 var source = new Image<Bgr, byte>(bmp);
-#if DEBUG
-                CvInvoke.Imshow("Contours", source);
-#endif
                 bmp.Dispose();
 
                 if (CVMain.PipelineFast(source, CVMain.Magenta) && CanFire())
                 {
-                    InputHandler.Fire();
+                    InputProxy.SendAction(InputProxy.Action.Fire);
                 }
 
                 source.Dispose();
