@@ -25,7 +25,7 @@
 - https://github.com/TooTallNate/Java-WebSocket
 - https://github.com/sta/websocket-sharp
 
-### Fastest way to capture desktop ( preferably event-based
+## Fastest way to capture desktop ( preferably event-based
 - Basically 3 ways:
   - Bitmap.CopyFromScreen
     - Slowest
@@ -35,3 +35,8 @@
   - DirectX Hooking
     - Anticheat problems
 - https://stackoverflow.com/questions/6812068/c-sharp-which-is-the-fastest-way-to-take-a-screen-shot
+
+# General loop
+- proccess images sequentially, one after another, not thru timers. This way its as fast as possible
+- use one thread for capturing and another for analyzing
+- reuse bitmap contexts, minimize creating new ones
