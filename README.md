@@ -22,3 +22,16 @@
  
 ### How to send commands to app from PC
 - https://www.codeproject.com/Articles/340714/Android-How-to-communicate-with-NET-application-vi
+- https://github.com/TooTallNate/Java-WebSocket
+- https://github.com/sta/websocket-sharp
+
+### Fastest way to capture desktop ( preferably event-based
+- Basically 3 ways:
+  - Bitmap.CopyFromScreen
+    - Slowest
+  - GDI+
+    - Supposedly sometimes faster than DirectX
+  - DirectX
+  - DirectX Hooking
+    - Anticheat problems
+- https://stackoverflow.com/questions/6812068/c-sharp-which-is-the-fastest-way-to-take-a-screen-shot
