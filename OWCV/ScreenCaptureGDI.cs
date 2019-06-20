@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.InteropServices;
+using MaterialSkin;
 
 namespace OWCV
 {
@@ -10,6 +12,7 @@ namespace OWCV
         public IntPtr hdcSrc;
         public IntPtr hdcDest;
         public IntPtr hBitmap;
+        public DateTime LastFrame = DateTime.Now;
 
         public ScreenCaptureGDI(IntPtr windowHandle, int fov = 5)
         {
@@ -33,7 +36,7 @@ namespace OWCV
         /// <param name="handle">The handle to the window. (In windows forms, this is obtained by the Handle property)</param>
         /// <param name="fov">Field of view</param>
         /// <returns></returns>
-        public Bitmap CaptureWindow(int fov = 5)
+        public Bitmap CaptureWindow(int fov = 8)
         {
             // get the size
             User32.RECT windowRect = new User32.RECT();
@@ -44,8 +47,14 @@ namespace OWCV
             // select the bitmap object
             IntPtr hOld = GDI32.SelectObject(hdcDest, hBitmap);
 
+
+#if DEBUG
+            // Draw FOV
+            CVUtils.DrawOnScreen(new Rectangle(width / 2 - fov / 2, height / 2 - fov / 2, fov, fov));
+#endif
+
             // bitblt over
-            GDI32.BitBlt(hdcDest, 0, 0, fov, fov, hdcSrc, width / 2 - fov, height / 2 - fov, GDI32.SRCCOPY);
+            GDI32.BitBlt(hdcDest, 0, 0, fov, fov, hdcSrc, width / 2 - fov / 2, height / 2 - fov / 2, GDI32.SRCCOPY);
 
             // restore selection
             GDI32.SelectObject(hdcDest, hOld);
@@ -56,12 +65,40 @@ namespace OWCV
             return img;
         }
 
+        public Color[] GetCenterScreenPixels()
+        {
+
+            // get the size
+            User32.RECT windowRect = new User32.RECT();
+            User32.GetWindowRect(WindowHandle, ref windowRect);
+            int width = windowRect.right - windowRect.left;
+            int height = windowRect.bottom - windowRect.top;
+#if DEBUG
+            // Draw FOV
+            // CVUtils.DrawOnScreen(new Rectangle(width / 2, height / 2, 1, 1));
+#endif
+            return new [] { GetPixel(width / 2, height / 2) };
+        }
+
+        public Color GetPixel(int x, int y)
+        {
+            uint pixel = GDI32.GetPixel(hdcSrc, x, y); //Returns ABGR
+
+            var c = Color.FromArgb((int) pixel);
+#if DEBUG
+            //Debug.WriteLine("ms per frame: " + (DateTime.Now - LastFrame).TotalMilliseconds);
+            //LastFrame = DateTime.Now;
+#endif
+            return Color.FromArgb(c.A, c.B, c.G, c.R);
+        }
+
         /// <summary>
         /// Helper class containing Gdi32 API functions
         /// </summary>
         private class GDI32
         {
-
+            [DllImport("gdi32.dll")]
+            public static extern uint GetPixel(IntPtr hdc, int nXPos, int nYPos);
             public const int SRCCOPY = 0x00CC0020; // BitBlt dwRop parameter
             [DllImport("gdi32.dll")]
             public static extern bool BitBlt(IntPtr hObject, int nXDest, int nYDest,
