@@ -33,10 +33,8 @@
             this.tickMsLabel = new System.Windows.Forms.Label();
             this.tickSpeedMsValue = new System.Windows.Forms.Label();
             this.materialRaisedButton1 = new MaterialSkin.Controls.MaterialRaisedButton();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.materialFlatButton1 = new MaterialSkin.Controls.MaterialFlatButton();
             this.tickMs = new System.Windows.Forms.TrackBar();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tickMs)).BeginInit();
             this.SuspendLayout();
             // 
@@ -105,14 +103,6 @@
             this.materialRaisedButton1.UseVisualStyleBackColor = true;
             this.materialRaisedButton1.Click += new System.EventHandler(this.materialRaisedButton1_Click);
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Location = new System.Drawing.Point(16, 247);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(155, 226);
-            this.pictureBox1.TabIndex = 7;
-            this.pictureBox1.TabStop = false;
-            // 
             // materialFlatButton1
             // 
             this.materialFlatButton1.AutoSize = true;
@@ -150,7 +140,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(468, 485);
             this.Controls.Add(this.materialFlatButton1);
-            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.materialRaisedButton1);
             this.Controls.Add(this.tickSpeedMsValue);
             this.Controls.Add(this.tickMsLabel);
@@ -160,7 +149,6 @@
             this.Name = "MainForm";
             this.Text = "OWCV";
             this.Load += new System.EventHandler(this.Form1_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tickMs)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -173,7 +161,6 @@
         private System.Windows.Forms.Label tickMsLabel;
         private System.Windows.Forms.Label tickSpeedMsValue;
         private MaterialSkin.Controls.MaterialRaisedButton materialRaisedButton1;
-        private System.Windows.Forms.PictureBox pictureBox1;
         private MaterialSkin.Controls.MaterialFlatButton materialFlatButton1;
         private System.Windows.Forms.TrackBar tickMs;
     }

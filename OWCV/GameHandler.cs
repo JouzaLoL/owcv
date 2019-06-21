@@ -1,14 +1,10 @@
 ﻿using Emgu.CV;
-using Emgu.CV.CvEnum;
 using Emgu.CV.Structure;
 using System;
 using System.Diagnostics;
-using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Threading;
-using System.Timers;
 using System.Windows.Forms;
-using Gma.System.MouseKeyHook;
 
 namespace OWCV
 {
@@ -32,17 +28,18 @@ namespace OWCV
             InputHandler = new InputHandler(gameWindow);
             ScreenCapture = new ScreenCaptureGDI(gameWindow);
         }
-        
-    /// <summary>
-    /// Starts capturing OW
-    /// </summary>
-    public void Inject()
+
+        /// <summary>
+        /// Starts capturing OW
+        /// </summary>
+        public void Inject()
         {
             while (true)
             {
                 Thread.Sleep(1);
                 ProcessFrame();
             }
+
         }
 
         private void ProcessFrame()
@@ -55,12 +52,10 @@ namespace OWCV
             //    // InputHandler.Fire();
             //}
 
-
             try
             {
-                var bmp = ScreenCapture.CaptureWindow();
+                var bmp = ScreenCapture.CaptureWindow(50);
                 var source = new Image<Bgr, byte>(bmp);
-
                 bmp.Dispose();
 
                 if (CVMain.PipelineFast(source, CVMain.Red) && CanFire() && GetAsyncKeyState(Keys.ShiftKey) < 0)

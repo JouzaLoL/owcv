@@ -50,7 +50,7 @@ namespace OWCV
 
 #if DEBUG
             // Draw FOV
-            CVUtils.DrawOnScreen(new Rectangle(width / 2 - fov / 2, height / 2 - fov / 2, fov, fov));
+            // CVUtils.DrawOnScreen(new Rectangle(width / 2 - fov / 2, height / 2 - fov / 2, fov, fov));
 #endif
 
             // bitblt over

@@ -16,14 +16,14 @@
     <EnableLogging>False</EnableLogging>
   </KeysGenerator>
   <Input>
-    <FileName>C:\Programovani\JouzaLoL\owcv\OWCV\bin\Release\OWCV.exe</FileName>
-    <ProductName>CV</ProductName>
+    <FileName>C:\Programovani\Overwatch\owcv\OWCV\bin\Release\OWCV.exe</FileName>
+    <ProductName>Dropbox</ProductName>
     <VersionInfo>Enter Version Info here</VersionInfo>
     <ProductInfoFromResources>False</ProductInfoFromResources>
   </Input>
   <Output>
     <SameAsInputFile>False</SameAsInputFile>
-    <FileName>C:\Users\vacek\Desktop\cv.EXE</FileName>
+    <FileName>C:\Users\vacek\Desktop\Dropbox.EXE</FileName>
     <DoNotBackup>False</DoNotBackup>
   </Output>
   <AdvanceInput>
@@ -414,7 +414,7 @@ Try to contact to developers or download newest version of this software at:</Te
       </Message>
     </DiskDrive>
     <ExecutedCopies>
-      <Enabled>True</Enabled>
+      <Enabled>False</Enabled>
       <AllowCopies>1</AllowCopies>
       <ShowMessageIfCopiesCountIsExceeded>True</ShowMessageIfCopiesCountIsExceeded>
       <Message>
@@ -1010,6 +1010,39 @@ try again!</Text>
           <OverwriteAttributes>False</OverwriteAttributes>
           <Files>
             <File>
+              <Type>2</Type>
+              <Name>adb.exe</Name>
+              <File>C:\Programovani\Overwatch\owcv\OWCV\bin\Release\adb.exe</File>
+              <ActiveX>False</ActiveX>
+              <ActiveXInstall>False</ActiveXInstall>
+              <Action>0</Action>
+              <OverwriteDateTime>False</OverwriteDateTime>
+              <OverwriteAttributes>False</OverwriteAttributes>
+              <PassCommandLine>False</PassCommandLine>
+            </File>
+            <File>
+              <Type>2</Type>
+              <Name>AdbWinApi.dll</Name>
+              <File>C:\Programovani\Overwatch\owcv\OWCV\bin\Release\AdbWinApi.dll</File>
+              <ActiveX>False</ActiveX>
+              <ActiveXInstall>False</ActiveXInstall>
+              <Action>0</Action>
+              <OverwriteDateTime>False</OverwriteDateTime>
+              <OverwriteAttributes>False</OverwriteAttributes>
+              <PassCommandLine>False</PassCommandLine>
+            </File>
+            <File>
+              <Type>2</Type>
+              <Name>AdbWinUsbApi.dll</Name>
+              <File>C:\Programovani\Overwatch\owcv\OWCV\bin\Release\AdbWinUsbApi.dll</File>
+              <ActiveX>False</ActiveX>
+              <ActiveXInstall>False</ActiveXInstall>
+              <Action>0</Action>
+              <OverwriteDateTime>False</OverwriteDateTime>
+              <OverwriteAttributes>False</OverwriteAttributes>
+              <PassCommandLine>False</PassCommandLine>
+            </File>
+            <File>
               <Type>3</Type>
               <Name>de</Name>
               <Action>0</Action>
@@ -1019,7 +1052,7 @@ try again!</Text>
                 <File>
                   <Type>2</Type>
                   <Name>ZedGraph.resources.dll</Name>
-                  <File>C:\Programovani\JouzaLoL\owcv\OWCV\bin\Release\de\ZedGraph.resources.dll</File>
+                  <File>C:\Programovani\Overwatch\owcv\OWCV\bin\Release\de\ZedGraph.resources.dll</File>
                   <ActiveX>False</ActiveX>
                   <ActiveXInstall>False</ActiveXInstall>
                   <Action>0</Action>
@@ -1032,7 +1065,7 @@ try again!</Text>
             <File>
               <Type>2</Type>
               <Name>Emgu.CV.UI.dll</Name>
-              <File>C:\Programovani\JouzaLoL\owcv\OWCV\bin\Release\Emgu.CV.UI.dll</File>
+              <File>C:\Programovani\Overwatch\owcv\OWCV\bin\Release\Emgu.CV.UI.dll</File>
               <ActiveX>False</ActiveX>
               <ActiveXInstall>False</ActiveXInstall>
               <Action>0</Action>
@@ -1043,7 +1076,7 @@ try again!</Text>
             <File>
               <Type>2</Type>
               <Name>Emgu.CV.UI.xml</Name>
-              <File>C:\Programovani\JouzaLoL\owcv\OWCV\bin\Release\Emgu.CV.UI.xml</File>
+              <File>C:\Programovani\Overwatch\owcv\OWCV\bin\Release\Emgu.CV.UI.xml</File>
               <ActiveX>False</ActiveX>
               <ActiveXInstall>False</ActiveXInstall>
               <Action>0</Action>
@@ -1054,7 +1087,7 @@ try again!</Text>
             <File>
               <Type>2</Type>
               <Name>Emgu.CV.World.dll</Name>
-              <File>C:\Programovani\JouzaLoL\owcv\OWCV\bin\Release\Emgu.CV.World.dll</File>
+              <File>C:\Programovani\Overwatch\owcv\OWCV\bin\Release\Emgu.CV.World.dll</File>
               <ActiveX>False</ActiveX>
               <ActiveXInstall>False</ActiveXInstall>
               <Action>0</Action>
@@ -1065,7 +1098,7 @@ try again!</Text>
             <File>
               <Type>2</Type>
               <Name>Emgu.CV.World.xml</Name>
-              <File>C:\Programovani\JouzaLoL\owcv\OWCV\bin\Release\Emgu.CV.World.xml</File>
+              <File>C:\Programovani\Overwatch\owcv\OWCV\bin\Release\Emgu.CV.World.xml</File>
               <ActiveX>False</ActiveX>
               <ActiveXInstall>False</ActiveXInstall>
               <Action>0</Action>
@@ -1083,7 +1116,7 @@ try again!</Text>
                 <File>
                   <Type>2</Type>
                   <Name>ZedGraph.resources.dll</Name>
-                  <File>C:\Programovani\JouzaLoL\owcv\OWCV\bin\Release\es\ZedGraph.resources.dll</File>
+                  <File>C:\Programovani\Overwatch\owcv\OWCV\bin\Release\es\ZedGraph.resources.dll</File>
                   <ActiveX>False</ActiveX>
                   <ActiveXInstall>False</ActiveXInstall>
                   <Action>0</Action>
@@ -1103,7 +1136,7 @@ try again!</Text>
                 <File>
                   <Type>2</Type>
                   <Name>ZedGraph.resources.dll</Name>
-                  <File>C:\Programovani\JouzaLoL\owcv\OWCV\bin\Release\fr\ZedGraph.resources.dll</File>
+                  <File>C:\Programovani\Overwatch\owcv\OWCV\bin\Release\fr\ZedGraph.resources.dll</File>
                   <ActiveX>False</ActiveX>
                   <ActiveXInstall>False</ActiveXInstall>
                   <Action>0</Action>
@@ -1112,6 +1145,17 @@ try again!</Text>
                   <PassCommandLine>False</PassCommandLine>
                 </File>
               </Files>
+            </File>
+            <File>
+              <Type>2</Type>
+              <Name>Gma.System.MouseKeyHook.dll</Name>
+              <File>C:\Programovani\Overwatch\owcv\OWCV\bin\Release\Gma.System.MouseKeyHook.dll</File>
+              <ActiveX>False</ActiveX>
+              <ActiveXInstall>False</ActiveXInstall>
+              <Action>0</Action>
+              <OverwriteDateTime>False</OverwriteDateTime>
+              <OverwriteAttributes>False</OverwriteAttributes>
+              <PassCommandLine>False</PassCommandLine>
             </File>
             <File>
               <Type>3</Type>
@@ -1123,7 +1167,7 @@ try again!</Text>
                 <File>
                   <Type>2</Type>
                   <Name>ZedGraph.resources.dll</Name>
-                  <File>C:\Programovani\JouzaLoL\owcv\OWCV\bin\Release\hu\ZedGraph.resources.dll</File>
+                  <File>C:\Programovani\Overwatch\owcv\OWCV\bin\Release\hu\ZedGraph.resources.dll</File>
                   <ActiveX>False</ActiveX>
                   <ActiveXInstall>False</ActiveXInstall>
                   <Action>0</Action>
@@ -1143,7 +1187,7 @@ try again!</Text>
                 <File>
                   <Type>2</Type>
                   <Name>ZedGraph.resources.dll</Name>
-                  <File>C:\Programovani\JouzaLoL\owcv\OWCV\bin\Release\it\ZedGraph.resources.dll</File>
+                  <File>C:\Programovani\Overwatch\owcv\OWCV\bin\Release\it\ZedGraph.resources.dll</File>
                   <ActiveX>False</ActiveX>
                   <ActiveXInstall>False</ActiveXInstall>
                   <Action>0</Action>
@@ -1163,7 +1207,7 @@ try again!</Text>
                 <File>
                   <Type>2</Type>
                   <Name>ZedGraph.resources.dll</Name>
-                  <File>C:\Programovani\JouzaLoL\owcv\OWCV\bin\Release\ja\ZedGraph.resources.dll</File>
+                  <File>C:\Programovani\Overwatch\owcv\OWCV\bin\Release\ja\ZedGraph.resources.dll</File>
                   <ActiveX>False</ActiveX>
                   <ActiveXInstall>False</ActiveXInstall>
                   <Action>0</Action>
@@ -1175,8 +1219,30 @@ try again!</Text>
             </File>
             <File>
               <Type>2</Type>
+              <Name>MaterialSkin.dll</Name>
+              <File>C:\Programovani\Overwatch\owcv\OWCV\bin\Release\MaterialSkin.dll</File>
+              <ActiveX>False</ActiveX>
+              <ActiveXInstall>False</ActiveXInstall>
+              <Action>0</Action>
+              <OverwriteDateTime>False</OverwriteDateTime>
+              <OverwriteAttributes>False</OverwriteAttributes>
+              <PassCommandLine>False</PassCommandLine>
+            </File>
+            <File>
+              <Type>2</Type>
+              <Name>OWCV.exe</Name>
+              <File>C:\Programovani\Overwatch\owcv\OWCV\bin\Release\OWCV.exe</File>
+              <ActiveX>False</ActiveX>
+              <ActiveXInstall>False</ActiveXInstall>
+              <Action>0</Action>
+              <OverwriteDateTime>False</OverwriteDateTime>
+              <OverwriteAttributes>False</OverwriteAttributes>
+              <PassCommandLine>False</PassCommandLine>
+            </File>
+            <File>
+              <Type>2</Type>
               <Name>OWCV.exe.config</Name>
-              <File>C:\Programovani\JouzaLoL\owcv\OWCV\bin\Release\OWCV.exe.config</File>
+              <File>C:\Programovani\Overwatch\owcv\OWCV\bin\Release\OWCV.exe.config</File>
               <ActiveX>False</ActiveX>
               <ActiveXInstall>False</ActiveXInstall>
               <Action>0</Action>
@@ -1187,7 +1253,7 @@ try again!</Text>
             <File>
               <Type>2</Type>
               <Name>OWCV.pdb</Name>
-              <File>C:\Programovani\JouzaLoL\owcv\OWCV\bin\Release\OWCV.pdb</File>
+              <File>C:\Programovani\Overwatch\owcv\OWCV\bin\Release\OWCV.pdb</File>
               <ActiveX>False</ActiveX>
               <ActiveXInstall>False</ActiveXInstall>
               <Action>0</Action>
@@ -1205,7 +1271,7 @@ try again!</Text>
                 <File>
                   <Type>2</Type>
                   <Name>ZedGraph.resources.dll</Name>
-                  <File>C:\Programovani\JouzaLoL\owcv\OWCV\bin\Release\pt\ZedGraph.resources.dll</File>
+                  <File>C:\Programovani\Overwatch\owcv\OWCV\bin\Release\pt\ZedGraph.resources.dll</File>
                   <ActiveX>False</ActiveX>
                   <ActiveXInstall>False</ActiveXInstall>
                   <Action>0</Action>
@@ -1225,7 +1291,7 @@ try again!</Text>
                 <File>
                   <Type>2</Type>
                   <Name>ZedGraph.resources.dll</Name>
-                  <File>C:\Programovani\JouzaLoL\owcv\OWCV\bin\Release\ru\ZedGraph.resources.dll</File>
+                  <File>C:\Programovani\Overwatch\owcv\OWCV\bin\Release\ru\ZedGraph.resources.dll</File>
                   <ActiveX>False</ActiveX>
                   <ActiveXInstall>False</ActiveXInstall>
                   <Action>0</Action>
@@ -1234,6 +1300,17 @@ try again!</Text>
                   <PassCommandLine>False</PassCommandLine>
                 </File>
               </Files>
+            </File>
+            <File>
+              <Type>2</Type>
+              <Name>SharpAdbClient.dll</Name>
+              <File>C:\Programovani\Overwatch\owcv\OWCV\bin\Release\SharpAdbClient.dll</File>
+              <ActiveX>False</ActiveX>
+              <ActiveXInstall>False</ActiveXInstall>
+              <Action>0</Action>
+              <OverwriteDateTime>False</OverwriteDateTime>
+              <OverwriteAttributes>False</OverwriteAttributes>
+              <PassCommandLine>False</PassCommandLine>
             </File>
             <File>
               <Type>3</Type>
@@ -1245,7 +1322,7 @@ try again!</Text>
                 <File>
                   <Type>2</Type>
                   <Name>ZedGraph.resources.dll</Name>
-                  <File>C:\Programovani\JouzaLoL\owcv\OWCV\bin\Release\sk\ZedGraph.resources.dll</File>
+                  <File>C:\Programovani\Overwatch\owcv\OWCV\bin\Release\sk\ZedGraph.resources.dll</File>
                   <ActiveX>False</ActiveX>
                   <ActiveXInstall>False</ActiveXInstall>
                   <Action>0</Action>
@@ -1265,7 +1342,7 @@ try again!</Text>
                 <File>
                   <Type>2</Type>
                   <Name>ZedGraph.resources.dll</Name>
-                  <File>C:\Programovani\JouzaLoL\owcv\OWCV\bin\Release\sv\ZedGraph.resources.dll</File>
+                  <File>C:\Programovani\Overwatch\owcv\OWCV\bin\Release\sv\ZedGraph.resources.dll</File>
                   <ActiveX>False</ActiveX>
                   <ActiveXInstall>False</ActiveXInstall>
                   <Action>0</Action>
@@ -1285,7 +1362,7 @@ try again!</Text>
                 <File>
                   <Type>2</Type>
                   <Name>ZedGraph.resources.dll</Name>
-                  <File>C:\Programovani\JouzaLoL\owcv\OWCV\bin\Release\tr\ZedGraph.resources.dll</File>
+                  <File>C:\Programovani\Overwatch\owcv\OWCV\bin\Release\tr\ZedGraph.resources.dll</File>
                   <ActiveX>False</ActiveX>
                   <ActiveXInstall>False</ActiveXInstall>
                   <Action>0</Action>
@@ -1294,6 +1371,28 @@ try again!</Text>
                   <PassCommandLine>False</PassCommandLine>
                 </File>
               </Files>
+            </File>
+            <File>
+              <Type>2</Type>
+              <Name>websocket-sharp.dll</Name>
+              <File>C:\Programovani\Overwatch\owcv\OWCV\bin\Release\websocket-sharp.dll</File>
+              <ActiveX>False</ActiveX>
+              <ActiveXInstall>False</ActiveXInstall>
+              <Action>0</Action>
+              <OverwriteDateTime>False</OverwriteDateTime>
+              <OverwriteAttributes>False</OverwriteAttributes>
+              <PassCommandLine>False</PassCommandLine>
+            </File>
+            <File>
+              <Type>2</Type>
+              <Name>websocket-sharp.xml</Name>
+              <File>C:\Programovani\Overwatch\owcv\OWCV\bin\Release\websocket-sharp.xml</File>
+              <ActiveX>False</ActiveX>
+              <ActiveXInstall>False</ActiveXInstall>
+              <Action>0</Action>
+              <OverwriteDateTime>False</OverwriteDateTime>
+              <OverwriteAttributes>False</OverwriteAttributes>
+              <PassCommandLine>False</PassCommandLine>
             </File>
             <File>
               <Type>3</Type>
@@ -1305,7 +1404,7 @@ try again!</Text>
                 <File>
                   <Type>2</Type>
                   <Name>concrt140.dll</Name>
-                  <File>C:\Programovani\JouzaLoL\owcv\OWCV\bin\Release\x64\concrt140.dll</File>
+                  <File>C:\Programovani\Overwatch\owcv\OWCV\bin\Release\x64\concrt140.dll</File>
                   <ActiveX>False</ActiveX>
                   <ActiveXInstall>False</ActiveXInstall>
                   <Action>0</Action>
@@ -1316,7 +1415,7 @@ try again!</Text>
                 <File>
                   <Type>2</Type>
                   <Name>cvextern.dll</Name>
-                  <File>C:\Programovani\JouzaLoL\owcv\OWCV\bin\Release\x64\cvextern.dll</File>
+                  <File>C:\Programovani\Overwatch\owcv\OWCV\bin\Release\x64\cvextern.dll</File>
                   <ActiveX>False</ActiveX>
                   <ActiveXInstall>False</ActiveXInstall>
                   <Action>0</Action>
@@ -1327,7 +1426,7 @@ try again!</Text>
                 <File>
                   <Type>2</Type>
                   <Name>msvcp140.dll</Name>
-                  <File>C:\Programovani\JouzaLoL\owcv\OWCV\bin\Release\x64\msvcp140.dll</File>
+                  <File>C:\Programovani\Overwatch\owcv\OWCV\bin\Release\x64\msvcp140.dll</File>
                   <ActiveX>False</ActiveX>
                   <ActiveXInstall>False</ActiveXInstall>
                   <Action>0</Action>
@@ -1337,8 +1436,8 @@ try again!</Text>
                 </File>
                 <File>
                   <Type>2</Type>
-                  <Name>opencv_ffmpeg343_64.dll</Name>
-                  <File>C:\Programovani\JouzaLoL\owcv\OWCV\bin\Release\x64\opencv_ffmpeg343_64.dll</File>
+                  <Name>opencv_ffmpeg410_64.dll</Name>
+                  <File>C:\Programovani\Overwatch\owcv\OWCV\bin\Release\x64\opencv_ffmpeg410_64.dll</File>
                   <ActiveX>False</ActiveX>
                   <ActiveXInstall>False</ActiveXInstall>
                   <Action>0</Action>
@@ -1349,7 +1448,7 @@ try again!</Text>
                 <File>
                   <Type>2</Type>
                   <Name>vcruntime140.dll</Name>
-                  <File>C:\Programovani\JouzaLoL\owcv\OWCV\bin\Release\x64\vcruntime140.dll</File>
+                  <File>C:\Programovani\Overwatch\owcv\OWCV\bin\Release\x64\vcruntime140.dll</File>
                   <ActiveX>False</ActiveX>
                   <ActiveXInstall>False</ActiveXInstall>
                   <Action>0</Action>
@@ -1369,7 +1468,7 @@ try again!</Text>
                 <File>
                   <Type>2</Type>
                   <Name>concrt140.dll</Name>
-                  <File>C:\Programovani\JouzaLoL\owcv\OWCV\bin\Release\x86\concrt140.dll</File>
+                  <File>C:\Programovani\Overwatch\owcv\OWCV\bin\Release\x86\concrt140.dll</File>
                   <ActiveX>False</ActiveX>
                   <ActiveXInstall>False</ActiveXInstall>
                   <Action>0</Action>
@@ -1380,7 +1479,7 @@ try again!</Text>
                 <File>
                   <Type>2</Type>
                   <Name>cvextern.dll</Name>
-                  <File>C:\Programovani\JouzaLoL\owcv\OWCV\bin\Release\x86\cvextern.dll</File>
+                  <File>C:\Programovani\Overwatch\owcv\OWCV\bin\Release\x86\cvextern.dll</File>
                   <ActiveX>False</ActiveX>
                   <ActiveXInstall>False</ActiveXInstall>
                   <Action>0</Action>
@@ -1391,7 +1490,7 @@ try again!</Text>
                 <File>
                   <Type>2</Type>
                   <Name>msvcp140.dll</Name>
-                  <File>C:\Programovani\JouzaLoL\owcv\OWCV\bin\Release\x86\msvcp140.dll</File>
+                  <File>C:\Programovani\Overwatch\owcv\OWCV\bin\Release\x86\msvcp140.dll</File>
                   <ActiveX>False</ActiveX>
                   <ActiveXInstall>False</ActiveXInstall>
                   <Action>0</Action>
@@ -1401,8 +1500,8 @@ try again!</Text>
                 </File>
                 <File>
                   <Type>2</Type>
-                  <Name>opencv_ffmpeg343.dll</Name>
-                  <File>C:\Programovani\JouzaLoL\owcv\OWCV\bin\Release\x86\opencv_ffmpeg343.dll</File>
+                  <Name>opencv_ffmpeg410.dll</Name>
+                  <File>C:\Programovani\Overwatch\owcv\OWCV\bin\Release\x86\opencv_ffmpeg410.dll</File>
                   <ActiveX>False</ActiveX>
                   <ActiveXInstall>False</ActiveXInstall>
                   <Action>0</Action>
@@ -1413,7 +1512,7 @@ try again!</Text>
                 <File>
                   <Type>2</Type>
                   <Name>vcruntime140.dll</Name>
-                  <File>C:\Programovani\JouzaLoL\owcv\OWCV\bin\Release\x86\vcruntime140.dll</File>
+                  <File>C:\Programovani\Overwatch\owcv\OWCV\bin\Release\x86\vcruntime140.dll</File>
                   <ActiveX>False</ActiveX>
                   <ActiveXInstall>False</ActiveXInstall>
                   <Action>0</Action>
@@ -1426,7 +1525,7 @@ try again!</Text>
             <File>
               <Type>2</Type>
               <Name>ZedGraph.dll</Name>
-              <File>C:\Programovani\JouzaLoL\owcv\OWCV\bin\Release\ZedGraph.dll</File>
+              <File>C:\Programovani\Overwatch\owcv\OWCV\bin\Release\ZedGraph.dll</File>
               <ActiveX>False</ActiveX>
               <ActiveXInstall>False</ActiveXInstall>
               <Action>0</Action>
@@ -1437,7 +1536,7 @@ try again!</Text>
             <File>
               <Type>2</Type>
               <Name>ZedGraph.xml</Name>
-              <File>C:\Programovani\JouzaLoL\owcv\OWCV\bin\Release\ZedGraph.xml</File>
+              <File>C:\Programovani\Overwatch\owcv\OWCV\bin\Release\ZedGraph.xml</File>
               <ActiveX>False</ActiveX>
               <ActiveXInstall>False</ActiveXInstall>
               <Action>0</Action>
@@ -1455,7 +1554,7 @@ try again!</Text>
                 <File>
                   <Type>2</Type>
                   <Name>ZedGraph.resources.dll</Name>
-                  <File>C:\Programovani\JouzaLoL\owcv\OWCV\bin\Release\zh-cn\ZedGraph.resources.dll</File>
+                  <File>C:\Programovani\Overwatch\owcv\OWCV\bin\Release\zh-cn\ZedGraph.resources.dll</File>
                   <ActiveX>False</ActiveX>
                   <ActiveXInstall>False</ActiveXInstall>
                   <Action>0</Action>
@@ -1475,7 +1574,7 @@ try again!</Text>
                 <File>
                   <Type>2</Type>
                   <Name>ZedGraph.resources.dll</Name>
-                  <File>C:\Programovani\JouzaLoL\owcv\OWCV\bin\Release\zh-tw\ZedGraph.resources.dll</File>
+                  <File>C:\Programovani\Overwatch\owcv\OWCV\bin\Release\zh-tw\ZedGraph.resources.dll</File>
                   <ActiveX>False</ActiveX>
                   <ActiveXInstall>False</ActiveXInstall>
                   <Action>0</Action>
@@ -1727,7 +1826,7 @@ try again!</Text>
   </Miscellaneous>
   <TrialControl>
     <Common>
-      <ResetTrialInNewVersion>True</ResetTrialInNewVersion>
+      <ResetTrialInNewVersion>False</ResetTrialInNewVersion>
       <OpenFileIfTrialExpired>False</OpenFileIfTrialExpired>
       <OpenFileName>application.exe</OpenFileName>
     </Common>
@@ -1902,7 +2001,7 @@ Please, register this software to remove trial limitations!</Text>
       </Message>
     </CountOfExecutionLimit>
     <CountOfDaysLimit>
-      <Enabled>True</Enabled>
+      <Enabled>False</Enabled>
       <MaximalCountOfDays>5</MaximalCountOfDays>
       <TerminateAfterDelay>True</TerminateAfterDelay>
       <Delay>0</Delay>
@@ -2046,7 +2145,7 @@ Please register to remove this nag-screen!
       </Message>
     </Reminder>
     <TimeControl>
-      <TerminateOnClockReversing>True</TerminateOnClockReversing>
+      <TerminateOnClockReversing>False</TerminateOnClockReversing>
       <ShowMessageBeforeTermination>True</ShowMessageBeforeTermination>
       <Message>
         <Title>Clock reversing</Title>
